@@ -1,0 +1,3 @@
+rootProject.name = 'gangwon_public_data'
+
+include ':app'
