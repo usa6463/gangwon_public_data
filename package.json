@@ -8,7 +8,9 @@
 	},
 	"dependencies": {
 		"react": "16.0.0-alpha.12",
-		"react-native": "0.48.2"
+		"react-native": "0.48.2",
+		"react-native-settings-list": "^1.7.1",
+		"react-navigation": "^1.0.0-beta.11"
 	},
 	"devDependencies": {
 		"babel-jest": "21.0.0",
