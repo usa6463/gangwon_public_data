@@ -1,4 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
+    settingIcon: {
+        width: 30,
+        height: 30,
+    }
 });
