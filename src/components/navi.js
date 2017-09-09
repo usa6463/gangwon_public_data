@@ -16,7 +16,7 @@ const TabNavi = TabNavigator(
     {
         tabBarPosition: 'bottom',
         tabBarOptions: {
-            activeTintColor: '#f39c12',
+            activeTintColor: '#3498db',
             inactiveTintColor: 'black',
             labelStyle: {
                 fontSize: 15,
