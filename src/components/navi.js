@@ -9,9 +9,8 @@ import SettingList from './settings/setting_list';
 
 const TabNavi = TabNavigator(
     {
-        Recommand: { screen: Recommand },
-        ResortState: { screen: ResortState },
-        ResortNear: { screen: ResortNear },
+        추천: { screen: Recommand },
+        스키장: { screen: ResortState },
     },
     {
         tabBarPosition: 'bottom',
