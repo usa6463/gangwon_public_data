@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, Image, StyleSheet, View } from 'react-native';
-import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
@@ -35,24 +34,7 @@ export default class Recommand extends React.Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <IndicatorViewPager
-                    style={{flex:1, paddingTop:20}}
-                    indicator={this._renderDotIndicator()}
-                    horizontalScroll={true}
-                >
-                    <View style={{flex:1}}>
-                        <Days/>
-                    </View>
-                    <View>
-                        <Text>page two</Text>
-                    </View>
-                    <View>
-                        <Text>page three</Text>
-                    </View>
-                    <View>
-                        <Text>page four</Text>
-                    </View>
-                </IndicatorViewPager>
+                <Text> Hello </Text>
             </View>
         );
     }
