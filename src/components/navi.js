@@ -3,14 +3,13 @@ import { TabNavigator, StackNavigator } from "react-navigation";
 
 import Recommand from './content/recommand';
 import ResortState from './content/resort_state';
-import ResortNear from './content/resort_near';
 import SettingList from './settings/setting_list';
 
 
 const TabNavi = TabNavigator(
     {
-        추천: { screen: Recommand },
-        스키장: { screen: ResortState },
+        recommand: { screen: Recommand },
+        ski: { screen: ResortState },
     },
     {
         tabBarPosition: 'bottom',
