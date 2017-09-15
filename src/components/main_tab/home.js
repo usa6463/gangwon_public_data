@@ -37,7 +37,7 @@ export default class Recommand extends React.Component {
                 </View>
                 
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('Recommand')} }>
+                    <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('Recommand')} }>
                         <Text style={styles.buttonText}> recommand course for you </Text>
                     </TouchableOpacity>
                 </View>
