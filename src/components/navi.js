@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { TabNavigator, StackNavigator } from "react-navigation";
 
-import Recommand from './content/recommand';
-import ResortState from './content/resort_state';
-import ResortNear from './content/resort_near';
-import SettingList from './settings/setting_list';
+import Home from './main_tab/home';
+import ResortDashboard from './main_tab/resort_dashboard';
+import ResortInfo from './main_tab/resort_info';
+
+import SettingList from './settings/main';
+
+import RecommandMain from './recommand/main';
 
 
 const TabNavi = TabNavigator(
     {
-        추천: { screen: Recommand },
-        스키장: { screen: ResortState },
+        home: { screen: Home },
+        dashboard: { screen: ResortDashboard },
+        info: { screen: ResortInfo },
     },
     {
         tabBarPosition: 'bottom',
@@ -31,4 +35,5 @@ const TabNavi = TabNavigator(
 export default StackNavi = StackNavigator({
     Home: { screen: TabNavi },
     Settings: { screen: SettingList },
+    Recommand: { screen: RecommandMain },
 });
