@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, Image, StyleSheet, View, Button, Alert, ViewPagerAndroid } from 'react-native';
-import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
 
+import Days from './days';
+import Sights from './sights';
+import Skill from './skill';
+import Stay from './stay';
 
 export default class Recommand extends React.Component {
     static navigationOptions =  ({ navigation }) => {
@@ -12,14 +16,6 @@ export default class Recommand extends React.Component {
             headerTitle: 'Recommand',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
-            headerRight: (
-                <TouchableOpacity onPress={() => {navigation.navigate('Settings')} } >
-                    <Image
-                        style={navi_styles.settingIcon}
-                        source={require('../../assets/images/set.png')}
-                    />
-                </TouchableOpacity>
-            )
         }
     }
 
@@ -40,22 +36,17 @@ export default class Recommand extends React.Component {
                     horizontalScroll={true}
                     removeClippedSubviews={false}
                 >
-                    <View style={{flex:1, alignItems:'center', padding:20}}>
-                        <Text style={{color:'black', fontSize:18}}>page two</Text>
+                    <View>
+                        <Days/>
                     </View>
                     <View>
-                        <Button
-                            onPress={() => Alert.alert('need logout funtion')}
-                            title="Learn More"
-                            color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
-                        />
+                        <Stay/>
                     </View>
                     <View>
-                        <Text>page three</Text>
+                        <Sights/>
                     </View>
                     <View>
-                        <Text>page four</Text>
+                        <Skill/>
                     </View>
                 </IndicatorViewPager>
             </View>
