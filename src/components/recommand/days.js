@@ -7,9 +7,8 @@ export default class Days extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            days: '1',
-        }
+        this.setDays = this.props.set_days;
+        this.setPage = this.props.set_page;
     }
     
     render() {
@@ -26,8 +25,8 @@ export default class Days extends React.Component {
                 <View style={styles.inputContainer}>
                     <Picker
                         style={styles.picker}
-                        selectedValue={this.state.days}
-                        onValueChange={(itemValue, itemIndex) => this.setState({days: itemValue})}>
+                        selectedValue={this.props.days}
+                        onValueChange={(itemValue, itemIndex) => this.setDays(itemValue)}>
                         <Picker.Item label="1 day" value="1" />
                         <Picker.Item label="2 days" value="2" />
                         <Picker.Item label="3 days" value="3" />
@@ -37,7 +36,7 @@ export default class Days extends React.Component {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => {} }>
+                    <TouchableOpacity style={styles.button} onPress={() => {this.setPage(1)} }>
                         <Text style={styles.buttonText}> Next </Text>
                     </TouchableOpacity>
                 </View>

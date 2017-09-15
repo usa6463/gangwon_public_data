@@ -21,10 +21,23 @@ export default class Recommand extends React.Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            days: "1",
+        };
+        this.setDays = this.setDays.bind(this);
+        this.movePage = this.movePage.bind(this);
     }
+
+    setDays(days){
+        this.setState({ days: days });
+    };
 
     _renderDotIndicator() {
         return <PagerDotIndicator pageCount={4} />;
+    }
+
+    movePage(page_index){
+        this.viewPager.setPage(page_index);
     }
     
     render() {
@@ -34,9 +47,10 @@ export default class Recommand extends React.Component {
                     style={{flex:1}}
                     indicator={this._renderDotIndicator()}
                     horizontalScroll={false}
+                    ref={(viewPager) => { this.viewPager = viewPager; }}
                 >
                     <View>
-                        <Days/>
+                        <Days set_days={this.setDays} days={this.state.days} set_page={this.movePage} />
                     </View>
                     <View>
                         <Stay/>

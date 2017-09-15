@@ -12,7 +12,7 @@ export default class Stay extends React.Component {
     render() {
         return (
             <View>
-                <Text> This is stay </Text>
+                <Text> {this.props.day} = This is stay </Text>
             </View>
         );
     }
