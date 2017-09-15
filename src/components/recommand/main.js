@@ -33,8 +33,7 @@ export default class Recommand extends React.Component {
                 <IndicatorViewPager
                     style={{flex:1}}
                     indicator={this._renderDotIndicator()}
-                    horizontalScroll={true}
-                    removeClippedSubviews={false}
+                    horizontalScroll={false}
                 >
                     <View>
                         <Days/>

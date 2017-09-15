@@ -7,6 +7,9 @@ export default class Days extends React.Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            days: '1',
+        }
     }
     
     render() {
@@ -21,13 +24,16 @@ export default class Days extends React.Component {
                 </View>
                 
                 <View style={styles.inputContainer}>
-                    <Text> this is input container</Text>
-                    {/* <Picker
-                        selectedValue={this.state.language}
-                        onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-                        <Picker.Item label="Java" value="java" />
-                        <Picker.Item label="JavaScript" value="js" />
-                    </Picker>    */}
+                    <Picker
+                        style={styles.picker}
+                        selectedValue={this.state.days}
+                        onValueChange={(itemValue, itemIndex) => this.setState({days: itemValue})}>
+                        <Picker.Item label="1 day" value="1" />
+                        <Picker.Item label="2 days" value="2" />
+                        <Picker.Item label="3 days" value="3" />
+                        <Picker.Item label="4 days" value="4" />
+                        <Picker.Item label="5 days" value="5" />
+                    </Picker>   
                 </View>
 
                 <View style={styles.buttonContainer}>
@@ -77,8 +83,13 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     inputContainer: {
-        alignItems: 'center',
         flex: 0.3,
+        paddingHorizontal: 15,
+        paddingVertical: 15,
         justifyContent: 'center',
+    },
+    picker: {
+        backgroundColor: '#2980b9',
+        color: '#FFF',
     },
 })
