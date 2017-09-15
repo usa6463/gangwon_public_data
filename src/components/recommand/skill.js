@@ -25,7 +25,7 @@ export default class Skill extends React.Component {
                 <View style={styles.inputContainer}>
                     <Picker
                         style={styles.picker}
-                        selectedValue={this.props.skill}
+                        selectedValue={this.props.state.skill}
                         onValueChange={(itemValue, itemIndex) => this.setSkill(itemValue)}>
                         <Picker.Item label="newbie" value="1" />
                         <Picker.Item label="intermediate" value="2" />
@@ -38,7 +38,7 @@ export default class Skill extends React.Component {
                         <TouchableOpacity style={styles.button} onPress={() => {this.setPage(2)} }>
                             <Text style={styles.buttonText}> Prev </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={() => {} }>
+                        <TouchableOpacity style={styles.doneButton} onPress={() => this.props.navigation.navigate('RecommandResult', this.props.state)}>
                             <Text style={styles.buttonText}> Done </Text>
                         </TouchableOpacity>
                     </View>
@@ -76,6 +76,11 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#2980b9',
+        flex:1,
+        paddingVertical: 15,
+    },
+    doneButton:{
+        backgroundColor: '#f1c40f',
         flex:1,
         paddingVertical: 15,
     },

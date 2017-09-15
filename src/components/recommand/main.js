@@ -78,7 +78,7 @@ export default class Recommand extends React.Component {
                         <Sights set_sights={this.setSights} sights={this.state.sights} set_page={this.movePage}/>
                     </View>
                     <View>
-                        <Skill set_skill={this.setSkill} skill={this.state.skill} set_page={this.movePage}/>
+                        <Skill set_skill={this.setSkill} state={this.state} set_page={this.movePage} navigation={this.props.navigation}/>
                     </View>
                 </IndicatorViewPager>
             </View>
