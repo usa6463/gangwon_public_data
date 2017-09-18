@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import content_styles from '../../assets/styles/content_style';
@@ -18,16 +18,19 @@ export default class Result extends React.Component {
         super(props);
         this.prop = this.props.navigation.state.params
         this.state = {
-            visible: true,
+            visible: false,
+            path: "",
+            
         };
     }
     
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.logoContainer}>
                     <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
-                </View>
+                    <ScrollView>
+                        
+                    </ScrollView>
             </View>
         );
     }
