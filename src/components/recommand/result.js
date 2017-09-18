@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
@@ -12,24 +13,20 @@ export default class Result extends React.Component {
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
     }
-    
+
     constructor(props){
         super(props);
-        this.state = this.props.navigation.state.params
+        this.prop = this.props.navigation.state.params
+        this.state = {
+            visible: true,
+        };
     }
     
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                    <Image
-                        style={styles.logo}
-                        source={require('../../assets/images/sights_logo.png')}
-                    />
-                    <Text style={styles.title}> days : {this.state.days} </Text>
-                    <Text style={styles.title}> stay : {this.state.stay} </Text>
-                    <Text style={styles.title}> sights : {this.state.sights} </Text>
-                    <Text style={styles.title}> skill : {this.state.skill} </Text>
+                    <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 </View>
             </View>
         );
