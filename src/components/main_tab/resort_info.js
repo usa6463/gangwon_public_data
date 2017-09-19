@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
-//import encoding from '../../../node_modules/encoding/lib/encoding';
 
 export default class Recommand extends React.Component {
 
@@ -41,8 +40,6 @@ export default class Recommand extends React.Component {
                             latitude: 37.1577340922822,
                             longitude: 128.949015226374,
                         }}
-                        //title={encoding.convert("O2&리조트", "utf-8")}
-                        //description={encoding.convert("강원도 태백시 서학로 861 (황지동)", "utf-8")}
                         title="O2&리조트"
                         description="강원도 태백시 서학로 861 (황지동)"
                     >
