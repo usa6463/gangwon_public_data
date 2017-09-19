@@ -3,11 +3,11 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Picker } from 'react-n
 
 import content_styles from '../../assets/styles/content_style';
 
-export default class Days extends React.Component {
+export default class Stay extends React.Component {
 
     constructor(props){
         super(props);
-        this.setDays = this.props.set_days;
+        this.setStay = this.props.set_stay;
         this.setPage = this.props.set_page;
     }
     
@@ -17,28 +17,30 @@ export default class Days extends React.Component {
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
-                        source={require('../../assets/images/days_logo.png')}
+                        source={require('../../assets/images/stay_logo.png')}
                     />
-                    <Text style={styles.title}> How many days do you want to stay? </Text>
+                    <Text style={styles.title}> Do you need a place for stay? </Text>
                 </View>
                 
                 <View style={styles.inputContainer}>
                     <Picker
                         style={styles.picker}
-                        selectedValue={this.props.days}
-                        onValueChange={(itemValue, itemIndex) => this.setDays(itemValue)}>
-                        <Picker.Item label="1 day" value="1" />
-                        <Picker.Item label="2 days" value="2" />
-                        <Picker.Item label="3 days" value="3" />
-                        <Picker.Item label="4 days" value="4" />
-                        <Picker.Item label="5 days" value="5" />
+                        selectedValue={this.props.stay}
+                        onValueChange={(itemValue, itemIndex) => this.setStay(itemValue)}>
+                        <Picker.Item label="yes" value="1" />
+                        <Picker.Item label="no" value="0" />
                     </Picker>   
                 </View>
 
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => {this.setPage(1)} }>
-                        <Text style={styles.buttonText}> Next </Text>
-                    </TouchableOpacity>
+                    <View style={styles.subButtonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => {this.setPage(0)} }>
+                            <Text style={styles.buttonText}> Prev </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => {this.setPage(2)} }>
+                            <Text style={styles.buttonText}> Next </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -68,11 +70,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     buttonContainer: {
-        flex: 0.2,
+        flex: 0.1,
         paddingHorizontal: 15,
     },
     button: {
         backgroundColor: '#2980b9',
+        flex:1,
         paddingVertical: 15,
     },
     buttonText: {
@@ -80,6 +83,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         fontSize: 18
+    },
+    subButtonContainer: {
+        flexDirection:'row',
+        flex: 1,
     },
     inputContainer: {
         flex: 0.3,

@@ -10,6 +10,7 @@
 		"encoding": "*",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.2",
+		"react-native-loading-spinner-overlay": "^0.5.2",
 		"react-native-maps": "^0.16.4",
 		"react-native-settings-list": "^1.7.1",
 		"react-native-smart-splash-screen": "^2.3.5",

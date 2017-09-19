@@ -6,6 +6,7 @@ import navi_styles from '../../assets/styles/navi_style'
 //import encoding from '../../../node_modules/encoding/lib/encoding';
 
 export default class Recommand extends React.Component {
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Ski Map Information',
@@ -40,10 +41,10 @@ export default class Recommand extends React.Component {
                             latitude: 37.1577340922822,
                             longitude: 128.949015226374,
                         }}
-                        //title={encoding.convert("O2&¸®Á¶Æ®", "utf-8")}
-                        //description={encoding.convert("°­¿øµµ ÅÂ¹é½Ã ¼­ÇÐ·Î 861 (È²Áöµ¿)", "utf-8")}
-                        title="O2&¸®Á¶Æ®"
-                        description="°­¿øµµ ÅÂ¹é½Ã ¼­ÇÐ·Î 861 (È²Áöµ¿)"
+                        //title={encoding.convert("O2&ë¦¬ì¡°íŠ¸", "utf-8")}
+                        //description={encoding.convert("ê°•ì›ë„ íƒœë°±ì‹œ ì„œí•™ë¡œ 861 (í™©ì§€ë™)", "utf-8")}
+                        title="O2&ë¦¬ì¡°íŠ¸"
+                        description="ê°•ì›ë„ íƒœë°±ì‹œ ì„œí•™ë¡œ 861 (í™©ì§€ë™)"
                     >
                     </MapView.Marker>
                 </MapView>
