@@ -25,10 +25,10 @@ export default class Recommand extends React.Component {
             ],
                 
             region: {
-                latitude: 37.1577340922822,
-                longitude: 128.949015226374,
-                latitudeDelta: 1.2,
-                longitudeDelta: 1.2,
+                latitude: 37.474397,
+                longitude: 128.217005,
+                latitudeDelta: 2.0,
+                longitudeDelta: 2.0,
             },
 
             visible : true,
