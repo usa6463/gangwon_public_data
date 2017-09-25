@@ -20,6 +20,7 @@ export default class Recommand extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            resort_name : ['오크밸리', '오투', '알펜시아', '웰리힐리', '휘닉스', '대명', '엘리시안', '용평', '하이원'],
             markers : [
             ],
                 
@@ -62,25 +63,27 @@ export default class Recommand extends React.Component {
     }
 
     componentDidMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/2";
+        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
         fetch(`${myApiUrl}`, {  
         method: 'GET',
         }).then(response =>{
             let obj = JSON.parse(response._bodyInit);
             let row = obj[Object.keys(obj)[0]].row;
             row.map(dict => {
-                console.log(dict.LNG);
-                temp = {
-                    name : dict.CONTENT_ID,
-                    latlng :{
-                        latitude: Number(dict.LAT),
-                        longitude: Number(dict.LNG)
-                    },
-                    title : dict.SUBJECT,
-                    description : dict.SMGW_ADDRESS_S,
-                }
-    
-                this.state.markers.push(temp);
+                this.state.resort_name.map(name => {
+                    if(dict.SUBJECT.search(name) >= 0 ){
+                        temp = {
+                            name : dict.CONTENT_ID,
+                            latlng :{
+                                latitude: Number(dict.LAT),
+                                longitude: Number(dict.LNG)
+                            },
+                            title : dict.SUBJECT,
+                            description : dict.SMGW_ADDRESS_S,
+                        }
+                        this.state.markers.push(temp);
+                    }
+                })
             });
             
             
