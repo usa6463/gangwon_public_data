@@ -20,15 +20,23 @@ export default class Recommand extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            content : '',
+            markers : [
+            ],
+                
             region: {
                 latitude: 37.1577340922822,
                 longitude: 128.949015226374,
                 latitudeDelta: 1.2,
                 longitudeDelta: 1.2,
             },
+
             visible : true,
         };
+        this.onRegionChange = this.onRegionChange.bind(this);
+    }
+
+    onRegionChange(region) {
+        this.setState({ region });
     }
 
     render() {
@@ -40,28 +48,43 @@ export default class Recommand extends React.Component {
                     region={this.state.region}
                     onRegionChange={this.onRegionChange}
                 >
-                    <MapView.Marker
-                        coordinate={{
-                            latitude: 37.1577340922822,
-                            longitude: 128.949015226374,
-                        }}
-                        title="O2&리조트"
-                        description="강원도 태백시 서학로 861 (황지동)"
-                    >
-                    </MapView.Marker>
+                    {this.state.markers.map(marker => (
+                        <MapView.Marker
+                            key = {marker.name}
+                            coordinate={marker.latlng}
+                            title={marker.title}
+                            description={marker.description}
+                        />
+                    ))}
                 </MapView>
             </View>
         );
     }
 
     componentDidMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
+        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/2";
         fetch(`${myApiUrl}`, {  
         method: 'GET',
         }).then(response =>{
-            this.state.content = response;
-            console.log(this.state.content);
+            let obj = JSON.parse(response._bodyInit);
+            let row = obj[Object.keys(obj)[0]].row;
+            row.map(dict => {
+                console.log(dict.LNG);
+                temp = {
+                    name : dict.CONTENT_ID,
+                    latlng :{
+                        latitude: Number(dict.LAT),
+                        longitude: Number(dict.LNG)
+                    },
+                    title : dict.SUBJECT,
+                    description : dict.SMGW_ADDRESS_S,
+                }
+    
+                this.state.markers.push(temp);
+            });
             
+            
+
             this.setState({
                 visible: !this.state.visible
             });
