@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
+import MapCallout from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
-
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
-
 
 export default class Recommand extends React.Component {
 
@@ -50,12 +49,19 @@ export default class Recommand extends React.Component {
                     onRegionChange={this.onRegionChange}
                 >
                     {this.state.markers.map(marker => (
-                        <MapView.Marker
+                        <MapView.Marker 
+                            onCalloutPress={() => this.props.navigation.navigate('SkiInfo')}
                             key = {marker.name}
+                            image={require('../../assets/images/ski_log_map.png')}
                             coordinate={marker.latlng}
-                            title={marker.title}
-                            description={marker.description}
-                        />
+                        >
+                            <MapView.Callout>
+                              <View style={styles.callout_container}>
+                                  <Text style={styles.callout_title}>{marker.title}</Text>
+                                  <Text Style={styles.callout_description}>{marker.description}</Text>
+                              </View>
+                          </MapView.Callout>
+                        </MapView.Marker>     
                     ))}
                 </MapView>
             </View>
@@ -107,4 +113,24 @@ const styles = StyleSheet.create({
         width: width,
         height: height
     },
+
+    callout_container: {
+        flex: 1,
+        backgroundColor: '#FFD8D8',
+        borderRadius: 20
+    },
+
+    callout_title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+       // marginBottom: 4
+    },
+    callout_description: {
+        fontSize: 12,
+        fontStyle: 'normal',
+        color: '#888',
+        textAlign: 'center'
+    }
+
 });
