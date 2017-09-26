@@ -16,11 +16,13 @@ export default class SkiInfo extends React.Component {
 
     constructor(props) {
         super(props);
+        this.prop = this.props.navigation.state.params
     }
 
     render() {
         return (
             <View style={styles.col_container} >
+                <Text> {this.prop.latlng.latitude} </Text>
                 <View style={styles.row_container}>
                     <Button style={styles.round_button}>
                         <Text style={styles.button_text_style}>스키장 소개</Text>
