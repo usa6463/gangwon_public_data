@@ -28,14 +28,6 @@ export default class ResortDetail extends React.Component {
         return (
             // <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
             <View style={styles.container}>
-                <View style={styles.title_container}>
-                    <Image
-                        style={styles.title_img}
-                        source={{uri: this.state.img_link}}
-                    />
-                    <Text style={styles.title_text}>{this.prop.total.SUBJECT}</Text>
-                </View>
-
                 <ScrollView style={styles.scroll}>
                     <Card>
                         <CardImage source={{uri: this.state.img_link}} />
