@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
@@ -19,7 +20,7 @@ export default class ResortDetail extends React.Component {
         this.prop = this.props.navigation.state.params
         this.state = {
             visible : true,
-            img_link : '',
+            img_link : 'http://placehold.it/480x270',
         };
     }
     
@@ -34,8 +35,31 @@ export default class ResortDetail extends React.Component {
                     />
                     <Text style={styles.title_text}>{this.prop.total.SUBJECT}</Text>
                 </View>
+
                 <ScrollView style={styles.scroll}>
-                    
+                    <Card>
+                        <CardImage source={{uri: this.state.img_link}} />
+                        <CardTitle title= "소개" />
+                        <CardContent text={this.prop.total.CONTENT}/>
+                    </Card>
+
+                    <Card>
+                        <CardImage source={require('../../assets/images/slope.jpg')} />
+                        <CardTitle title= "날씨" />
+                        <CardContent text={this.prop.total.CONTENT}/>
+                    </Card>
+
+                    <Card>
+                        <CardImage source={require('../../assets/images/pay.jpg')} />
+                        <CardTitle title= "이용 요금" />
+                        <CardContent text={this.prop.total.CONTENT}/>
+                    </Card>
+
+                    <Card>
+                        <CardImage source={require('../../assets/images/slope.jpg')}/>
+                        <CardTitle title= "슬로프" />
+                        <CardContent text={this.prop.total.CONTENT}/>
+                    </Card>
                 </ScrollView>
             </View>
             
@@ -114,5 +138,9 @@ const styles = StyleSheet.create({
     },
     scroll: {
         flex: 0.6,
+    },
+    card_image: {
+        color: 'rgba(52, 52, 52, 0.7)',
+        
     },
 })
