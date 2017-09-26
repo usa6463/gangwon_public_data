@@ -17,7 +17,8 @@ const TabNavi = TabNavigator(
         dashboard: { screen: ResortDashboard },
         info: { screen: ResortInfo },
     },
-    {
+    {   
+        lazy: true,
         tabBarPosition: 'bottom',
         tabBarOptions: {
             activeTintColor: '#3498db',
