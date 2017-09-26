@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import content_styles from '../../assets/styles/content_style';
@@ -28,28 +28,14 @@ export default class ResortDetail extends React.Component {
             // <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
             <View style={styles.container}>
                 <View style={styles.title_container}>
+                    <Image
+                        style={styles.title_img}
+                        source={{uri: this.state.img_link}}
+                    />
                     <Text style={styles.title_text}>{this.prop.total.SUBJECT}</Text>
                 </View>
                 <ScrollView style={styles.scroll}>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-                    <Text style={{alignItems: 'center'}}> {this.prop.total.SUBJECT} </Text>
-
+                    
                 </ScrollView>
             </View>
             
@@ -58,7 +44,7 @@ export default class ResortDetail extends React.Component {
 
     componentDidMount(){
         let search_name = encodeURIComponent(this.prop.total.SUBJECT);
-        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim";
+        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
         fetch(`${myApiUrl}`, {  
         method : 'GET',
         headers : {
@@ -69,7 +55,10 @@ export default class ResortDetail extends React.Component {
             console.log(response._bodyInit)
             let obj = JSON.parse(response._bodyInit);
             console.log(obj.total);
-            console.log(obj.items[0].link);            
+            console.log(obj.items[0].link);
+            this.setState({
+                img_link: obj.items[0].link
+            });
         })
 
         // let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
@@ -113,13 +102,17 @@ const styles = StyleSheet.create({
     },
     title_text: {
         color: '#FFF',
-        // marginTop: 10,
-        // width: 280,
         textAlign: 'center',
         opacity: 0.9,
         fontSize: 16,
     },
+    title_img: {
+        borderRadius: 50,
+        width: 100,
+        height: 100,
+        marginBottom: 10,
+    },
     scroll: {
         flex: 0.6,
-    }
+    },
 })
