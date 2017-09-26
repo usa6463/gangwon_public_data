@@ -19,7 +19,7 @@ export default class Recommand extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            resort_name : ['오크밸리', '오투', '알펜시아', '웰리힐리', '휘닉스', '대명', '엘리시안', '용평', '하이원'],
+            resort_name : ['오크밸리 스키장', '오투', '알펜시아', '웰리힐리', '휘닉스', '대명', '엘리시안', '용평', '하이원'],
             markers : [
             ],
                 
