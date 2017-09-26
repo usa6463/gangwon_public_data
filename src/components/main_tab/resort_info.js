@@ -58,7 +58,7 @@ export default class Recommand extends React.Component {
                             <MapView.Callout>
                               <View style={styles.callout_container}>
                                   <Text style={styles.callout_title}>{marker.title}</Text>
-                                  <Text Style={styles.callout_description}>{marker.description}</Text>
+                                  <Text Style={styles.callout_description}>{marker.address}</Text>
                               </View>
                           </MapView.Callout>
                         </MapView.Marker>     
@@ -85,15 +85,13 @@ export default class Recommand extends React.Component {
                                 longitude: Number(dict.LNG)
                             },
                             title : dict.SUBJECT,
-                            description : dict.SMGW_ADDRESS_S,
+                            address : dict.SMGW_ADDRESS_S,
+                            total : dict,
                         }
                         this.state.markers.push(temp);
                     }
                 })
             });
-            
-            
-
             this.setState({
                 visible: !this.state.visible
             });
