@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
+import MapCallout from 'react-native-maps';
 import content_styles from '../../assets/styles/content_style';
-import navi_styles from '../../assets/styles/navi_style'
-//import encoding from '../../../node_modules/encoding/lib/encoding';
+import navi_styles from '../../assets/styles/navi_style';
 
 export default class Recommand extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -29,23 +29,28 @@ export default class Recommand extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                
                 <MapView
                     style={styles.map}
                     region={this.state.region}
                     onRegionChange={this.onRegionChange}
                 >
-                    <MapView.Marker
+                
+                    <MapView.Marker onCalloutPress={() => this.props.navigation.navigate('SkiInfo')}
                         coordinate={{
                             latitude: 37.1577340922822,
                             longitude: 128.949015226374,
                         }}
-                        //title={encoding.convert("O2&리조트", "utf-8")}
-                        //description={encoding.convert("강원도 태백시 서학로 861 (황지동)", "utf-8")}
-                        title="O2&리조트"
-                        description="강원도 태백시 서학로 861 (황지동)"
+                        image={require('../../assets/images/ski_log_map.png')}
+                        showCallout='true'
                     >
+                        <MapView.Callout>
+                            <View style={styles.callout_container}>
+                                <Text style={styles.callout_title}>asdfasdfa</Text>
+                                <Text Style={styles.callout_description}>asdfas</Text>
+                            </View>
+                        </MapView.Callout>
                     </MapView.Marker>
+                    
                 </MapView>
             </View>
         );
@@ -64,4 +69,24 @@ const styles = StyleSheet.create({
         width: width,
         height: height
     },
+
+    callout_container: {
+        flex: 1,
+        backgroundColor: '#FFD8D8',
+        borderRadius: 20
+    },
+
+    callout_title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+       // marginBottom: 4
+    },
+    callout_description: {
+        fontSize: 12,
+        fontStyle: 'normal',
+        color: '#888',
+        textAlign: 'center'
+    }
+
 });
