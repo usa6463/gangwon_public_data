@@ -19,6 +19,7 @@ export default class ResortDetail extends React.Component {
         this.prop = this.props.navigation.state.params
         this.state = {
             visible : true,
+            img_link : '',
         };
     }
     
@@ -56,6 +57,21 @@ export default class ResortDetail extends React.Component {
     }
 
     componentDidMount(){
+        let search_name = encodeURIComponent(this.prop.total.SUBJECT);
+        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim";
+        fetch(`${myApiUrl}`, {  
+        method : 'GET',
+        headers : {
+            'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
+            'X-Naver-Client-Secret' : "aUDG50tsmD",
+        },        
+        }).then(response =>{
+            console.log(response._bodyInit)
+            let obj = JSON.parse(response._bodyInit);
+            console.log(obj.total);
+            console.log(obj.items[0].link);            
+        })
+
         // let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
         // fetch(`${myApiUrl}`, {  
         // method: 'GET',
