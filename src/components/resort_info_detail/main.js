@@ -6,8 +6,8 @@ import Restaurant from './restaurant';
 
 export default TabNavi = TabNavigator(
     {
-        resort_detail: { screen: ResortDetail },
-        restaurant: { screen: Restaurant },
+        스키장정보: { screen: ResortDetail },
+        주변식당: { screen: Restaurant },
         // stay: { screen: Stay },
         // sights: { screen: Sights },
     },

@@ -14,9 +14,9 @@ import RestaurantInfo from './resort_info_detail/restaurant_info';
 
 const TabNavi = TabNavigator(
     {
-        home: { screen: Home },
-        dashboard: { screen: ResortDashboard },
-        info: { screen: ResortInfo },
+        홈: { screen: Home },
+        대시보드: { screen: ResortDashboard },
+        스키장정보: { screen: ResortInfo },
     },
     {   
         lazy: true,
