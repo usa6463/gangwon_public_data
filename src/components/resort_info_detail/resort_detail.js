@@ -67,10 +67,13 @@ export default class ResortDetail extends React.Component {
 
                     <Card>
                         <CardTitle title= "이용 요금" />
-                        <Image
-                            style={styles.card_image}
-                            source={this.fee[this.prop.total.CONTENT_ID]}
-                        />
+                        <ScrollView horizontal={true}>
+                            <Image
+                                style={styles.card_image}
+                                source={this.fee[this.prop.total.CONTENT_ID]}
+                            />
+                        </ScrollView>
+                        
                     </Card>
 
                     <Card>
@@ -135,7 +138,6 @@ const styles = StyleSheet.create({
     },
     card_image: {
         flex: 1,
-        
         resizeMode:'stretch'
     },
 })
