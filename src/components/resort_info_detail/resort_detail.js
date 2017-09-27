@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
@@ -66,22 +66,25 @@ export default class ResortDetail extends React.Component {
                     </Card>
 
                     <Card>
-                        <CardTitle title= "이용 요금" />
+                        <Text style={styles.card_text}>이용 요금</Text>
                         <ScrollView horizontal={true}>
                             <Image
+                                resizeMode="contain"
                                 style={styles.card_image}
                                 source={this.fee[this.prop.total.CONTENT_ID]}
                             />
                         </ScrollView>
-                        
                     </Card>
 
                     <Card>
-                        <CardTitle title= "슬로프" />
-                        <Image
-                            style={styles.card_image}
-                            source={this.slope[this.prop.total.CONTENT_ID]}
-                        />
+                        <Text style={styles.card_text}>슬로프</Text>
+                        <ScrollView horizontal={true}>
+                            <Image
+                                resizeMode="contain"
+                                style={styles.card_image}
+                                source={this.slope[this.prop.total.CONTENT_ID]}
+                            />
+                        </ScrollView>
                     </Card>
                 </ScrollView>
             </View>
@@ -111,6 +114,8 @@ export default class ResortDetail extends React.Component {
     }
 }
 
+var { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex:1,
@@ -134,10 +139,23 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     scroll: {
-        flex: 0.6,
+        flex: 1,
     },
     card_image: {
-        flex: 1,
-        resizeMode:'stretch'
+        // width: width,
+        // height: height,
+        // resizeMode:'stretch'
     },
+    card_scroll: {
+        flex:1,
+    },
+    card_text: {
+        alignItems: 'flex-start',
+        paddingRight: 16,
+        paddingLeft: 16,
+        paddingBottom: 16,
+        paddingTop: 16,
+        fontSize: 24,
+        color: 'rgba(0 ,0 ,0 , 0.87)'
+    }
 })
