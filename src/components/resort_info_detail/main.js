@@ -4,13 +4,14 @@ import { TabNavigator,} from "react-navigation";
 import ResortDetail from './resort_detail';
 import Restaurant from './restaurant';
 import Stay from './stay';
+import Sight from './sight';
 
 export default TabNavi = TabNavigator(
     {
-        스키장정보: { screen: ResortDetail },
-        주변식당: { screen: Restaurant },
-        주변숙박시설: { screen: Stay },
-        // sights: { screen: Sights },
+        정보: { screen: ResortDetail },
+        식당: { screen: Restaurant },
+        숙박지: { screen: Stay },
+        관광지: { screen: Sight },
     },
     {   
         lazy: true,

@@ -5,10 +5,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
 
-export default class Stay extends React.Component {
+export default class Sight extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: '주변 숙박지',
+            headerTitle: '주변 관광지',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -18,18 +18,16 @@ export default class Stay extends React.Component {
         super(props);
         this.prop = this.props.navigation.state.params
         this.state = {
-            stays : [
+            sights : [
             ],
             visible : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.kind = [
-            'inn',
-            'pension',
-            'motel',
-            'condo',
-            'resort',
-            'hotel',
+            'lake',
+            'beach',
+            'park',
+            'culture',
         ]
     }
     
@@ -38,10 +36,10 @@ export default class Stay extends React.Component {
             <View style={styles.container}>
                 <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
-                    data={this.state.stays}
+                    data={this.state.sights}
                     keyExtractor={item => ''+item.LAT}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('StayInfo', item)} } >
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('SightInfo', item)} } >
                             <View style={styles.list_item}>
                                 <Image
                                     style={styles.avatar}
@@ -77,7 +75,7 @@ export default class Stay extends React.Component {
 
     componentWillMount(){
         this.kind.map(stay_kind => {
-            let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-accommodation-${stay_kind}-kr/1/1000/`;
+            let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-${stay_kind}-kr/1/1000/`;
             fetch(`${myApiUrl}`, {
                 method: 'GET',
             }).then(response =>{
@@ -86,7 +84,7 @@ export default class Stay extends React.Component {
     
                 row.map(dict => {
                     dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
-                    if(dist<10.0){
+                    if(dist<20.0){
                         let search_name = encodeURIComponent(dict.SUBJECT);
                         let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
                         fetch(`${myApiUrl}`, {  
@@ -104,9 +102,9 @@ export default class Stay extends React.Component {
                                 dict['img_link'] = 'http://placehold.it/140x100'
                             }
                             
-                            var stays = this.state.stays.slice()
-                            stays.push(dict)
-                            this.setState({ stays: stays })
+                            var sights = this.state.sights.slice()
+                            sights.push(dict)
+                            this.setState({ sights: sights })
                         })
                     }
                     
