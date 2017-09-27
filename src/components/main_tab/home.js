@@ -38,7 +38,7 @@ export default class Recommand extends React.Component {
                 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('Recommand')} }>
-                        <Text style={styles.buttonText}> recommand course for you </Text>
+                        <Text style={styles.buttonText}> 여행 코스 추천</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -81,6 +81,5 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         fontSize: 18
-
     },
 })

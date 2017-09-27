@@ -69,33 +69,28 @@ export default class Recommand extends React.Component {
     }
 
     componentDidMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
-        fetch(`${myApiUrl}`, {  
-        method: 'GET',
-        }).then(response =>{
-            let obj = JSON.parse(response._bodyInit);
-            let row = obj[Object.keys(obj)[0]].row;
-            row.map(dict => {
-                this.state.resort_name.map(name => {
-                    if(dict.SUBJECT.search(name) >= 0 ){
-                        temp = {
-                            name : dict.CONTENT_ID,
-                            latlng :{
-                                latitude: Number(dict.LAT),
-                                longitude: Number(dict.LNG)
-                            },
-                            title : dict.SUBJECT,
-                            address : dict.SMGW_ADDRESS_S,
-                            total : dict,
-                        }
-                        this.state.markers.push(temp);
+        let row = require( "./ski_resort_info.json" )
+        console.log(row)
+        row.map(dict => {
+            this.state.resort_name.map(name => {
+                if(dict.SUBJECT.search(name) >= 0 ){
+                    temp = {
+                        name : dict.CONTENT_ID,
+                        latlng :{
+                            latitude: Number(dict.LAT),
+                            longitude: Number(dict.LNG)
+                        },
+                        title : dict.SUBJECT,
+                        address : dict.SMGW_ADDRESS_S,
+                        total : dict,
                     }
-                })
-            });
-            this.setState({
-                visible: !this.state.visible
-            });
-        })
+                    this.state.markers.push(temp);
+                }
+            })
+        });
+        this.setState({
+            visible: !this.state.visible
+        });
     }
 }
 

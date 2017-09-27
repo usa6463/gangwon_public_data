@@ -3,16 +3,19 @@ import { TabNavigator,} from "react-navigation";
 
 import ResortDetail from './resort_detail';
 import Restaurant from './restaurant';
+import Stay from './stay';
+import Sight from './sight';
 
 export default TabNavi = TabNavigator(
     {
-        resort_detail: { screen: ResortDetail },
-        restaurant: { screen: Restaurant },
-        // stay: { screen: Stay },
-        // sights: { screen: Sights },
+        정보: { screen: ResortDetail },
+        식당: { screen: Restaurant },
+        숙박지: { screen: Stay },
+        관광지: { screen: Sight },
     },
     {   
         lazy: true,
+        swipeEnabled: false,
         tabBarPosition: 'bottom',
         tabBarOptions: {
             activeTintColor: '#3498db',
