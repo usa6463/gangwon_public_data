@@ -40,9 +40,9 @@ export default class Restaurant extends React.Component {
                                 source={{uri : item.img_link}}
                             />
                             <View style={styles.title_container}>
-                                <Text> {item.SUBJECT} </Text>
-                                <Text> {item.SMGW_ADDRESS_S} </Text>
-                                <Text> {item.SMGW_SUBJECT_S} </Text>
+                                <Text style={styles.title_text}> {item.SUBJECT} </Text>
+                                <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
+                                <Text style={styles.sub_title_text}> {item.SMGW_SUBJECT_S} </Text>
                             </View>
 
                         </View>
@@ -53,7 +53,7 @@ export default class Restaurant extends React.Component {
     }
 
     componentWillMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-restaurant-korean_food-kr/1/200";
+        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-restaurant-korean_food-kr/1/2";
         fetch(`${myApiUrl}`, {
             method: 'GET',
         }).then(response =>{
@@ -94,10 +94,27 @@ const styles = StyleSheet.create({
     list_item: {
         flex:1,
         flexDirection: 'row',
+        backgroundColor: '#ecf0f1',
+        borderColor: 'black',
+        borderBottomWidth: 1,
     },
     avatar: {
-        width: 80,
-        height: 80,
+        width: 70,
+        height: 70,
         borderRadius: 50,
+        marginTop: 8,
+        marginBottom: 8,
+        marginRight: 8,
+        marginLeft: 8,
+    },
+    title_text: {
+        color: 'black',
+        fontWeight: '700',
+        fontSize: 18,
+        marginBottom: 4,
+        marginTop: 6,
+    },
+    sub_title_text: {
+        marginBottom: 2,
     }
 });
