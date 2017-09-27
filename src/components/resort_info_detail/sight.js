@@ -24,10 +24,31 @@ export default class Sight extends React.Component {
         };
         this.get_distance = this.get_distance.bind(this);
         this.kind = [
+            'port',
+            'campground',
+            'astronomical_observatory',
+            'observatory',
+            'amusement_park',
+            'island',
+            'valley',
+            'etc',
+            'waterfall',
+            'theme_park',
+            'experience_village',
+            'natural_recreation_forest',
+            'natural_ecology',
+            'ruins',
+            'cruise',
+            'mountain',
+            'museum',
+            'leisure_sports',
+            'road',
+            'flower_garden',
             'lake',
             'beach',
             'park',
             'culture',
+            'river',
         ]
     }
     
@@ -84,7 +105,7 @@ export default class Sight extends React.Component {
     
                 row.map(dict => {
                     dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
-                    if(dist<20.0){
+                    if(dist<10.0 && dist!=0){
                         let search_name = encodeURIComponent(dict.SUBJECT);
                         let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
                         fetch(`${myApiUrl}`, {  
