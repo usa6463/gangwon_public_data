@@ -10,6 +10,7 @@ import ResortInfoDetail from './resort_info_detail/main';
 import RecommandMain from './recommand/main';
 import RecommandResult from './recommand/result';
 import RestaurantInfo from './resort_info_detail/restaurant_info';
+import StayInfo from './resort_info_detail/stay_info';
 
 
 const TabNavi = TabNavigator(
@@ -42,4 +43,5 @@ export default StackNavi = StackNavigator({
     ResortInfoDetail: { screen: ResortInfoDetail},
     RecommandResult: { screen: RecommandResult },
     RestaurantInfo: { screen: RestaurantInfo },
+    StayInfo: { screen: StayInfo },
 });

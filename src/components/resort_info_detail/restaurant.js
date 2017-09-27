@@ -51,7 +51,7 @@ export default class Restaurant extends React.Component {
                 <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.restaurants}
-                    keyExtractor={item => ''+item.PHONE_NO}
+                    keyExtractor={item => ''+item.LAT}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
                             <View style={styles.list_item}>
