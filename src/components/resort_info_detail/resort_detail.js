@@ -9,7 +9,7 @@ import navi_styles from '../../assets/styles/navi_style'
 export default class ResortDetail extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: 'ResortDetail',
+            headerTitle: '스키장 정보',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }

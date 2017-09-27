@@ -7,7 +7,7 @@ import navi_styles from '../../assets/styles/navi_style'
 export default class Restaurant extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: 'Restaurant',
+            headerTitle: '주변 식당',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -33,7 +33,7 @@ export default class Restaurant extends React.Component {
                     data={this.state.restaurants}
                     keyExtractor={item => ''+item.CONTENT_ID}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('Settings')} } >
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
                             <View style={styles.list_item}>
                                 <Image
                                     key={item.SUBJECT}

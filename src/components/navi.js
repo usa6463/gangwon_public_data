@@ -9,6 +9,7 @@ import SettingList from './settings/main';
 import ResortInfoDetail from './resort_info_detail/main';
 import RecommandMain from './recommand/main';
 import RecommandResult from './recommand/result';
+import RestaurantInfo from './resort_info_detail/restaurant_info';
 
 
 const TabNavi = TabNavigator(
@@ -40,4 +41,5 @@ export default StackNavi = StackNavigator({
     Recommand: { screen: RecommandMain },
     ResortInfoDetail: { screen: ResortInfoDetail},
     RecommandResult: { screen: RecommandResult },
+    RestaurantInfo: { screen: RestaurantInfo },
 });
