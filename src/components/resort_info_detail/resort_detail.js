@@ -22,6 +22,30 @@ export default class ResortDetail extends React.Component {
             visible : true,
             img_link : 'http://placehold.it/480x270',
         };
+
+        this.slope = [
+            require('../../assets/images/slope/high_one.png'),
+            require('../../assets/images/slope/yongpyung.png'),
+            require('../../assets/images/slope/elisian.png'),
+            require('../../assets/images/slope/daemyung.png'),
+            require('../../assets/images/slope/phoenix.png'),
+            require('../../assets/images/slope/welihili.png'),
+            require('../../assets/images/slope/alpensia.png'),
+            require('../../assets/images/slope/o2.png'),
+            require('../../assets/images/slope/orc.png'),
+        ]
+
+        this.fee = [
+            require('../../assets/images/fee/high_one.png'),
+            require('../../assets/images/fee/yongpyung.png'),
+            require('../../assets/images/fee/elisian.png'),
+            require('../../assets/images/fee/daemyung.png'),
+            require('../../assets/images/fee/phoenix.png'),
+            require('../../assets/images/fee/welihili.png'),
+            require('../../assets/images/fee/alpensia.png'),
+            require('../../assets/images/fee/o2.png'),
+            require('../../assets/images/fee/orc.png'),
+        ]
     }
     
     render() {
@@ -42,15 +66,19 @@ export default class ResortDetail extends React.Component {
                     </Card>
 
                     <Card>
-                        <CardImage source={require('../../assets/images/pay.jpg')} />
                         <CardTitle title= "이용 요금" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <Image
+                            style={styles.card_image}
+                            source={this.fee[this.prop.total.CONTENT_ID]}
+                        />
                     </Card>
 
                     <Card>
-                        <CardImage source={require('../../assets/images/slope.jpg')}/>
                         <CardTitle title= "슬로프" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <Image
+                            style={styles.card_image}
+                            source={this.slope[this.prop.total.CONTENT_ID]}
+                        />
                     </Card>
                 </ScrollView>
             </View>
@@ -106,7 +134,8 @@ const styles = StyleSheet.create({
         flex: 0.6,
     },
     card_image: {
-        color: 'rgba(52, 52, 52, 0.7)',
+        flex: 1,
         
+        resizeMode:'stretch'
     },
 })
