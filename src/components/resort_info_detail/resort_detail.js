@@ -26,8 +26,8 @@ export default class ResortDetail extends React.Component {
     
     render() {
         return (
-            // <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
             <View style={styles.container}>
+                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <ScrollView style={styles.scroll}>
                     <Card>
                         <CardImage source={{uri: this.state.img_link}} />
@@ -71,6 +71,10 @@ export default class ResortDetail extends React.Component {
             let obj = JSON.parse(response._bodyInit);
             this.setState({
                 img_link: obj.items[0].link
+            });
+
+            this.setState({
+                visible: !this.state.visible
             });
         })
     }

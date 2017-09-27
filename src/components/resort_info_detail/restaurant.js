@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, FlatList, List, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
@@ -21,29 +22,47 @@ export default class Restaurant extends React.Component {
             ],
             visible : true,
         };
-        this.kor_to_eng = {
-            '한식' : require('../../assets/images/food_kor.png'),
+        this.get_distance = this.get_distance.bind(this);
+        this.city_kor_to_eng = {
+            '양양' : 'yangyang',
+            '고성' : 'goseong',
+            '인제' : 'inje',
+            '양구' : 'yanggu',
+            '화천' : 'hwacheon',
+            '철원' : 'cheorwon',
+            '정선' : 'jeongseon',
+            '평창' : 'pyeongchang',
+            '영월' : 'yeongwol',
+            '횡성' : 'hoengseong',
+            '홍천' : 'hongcheon',
+            '속초' : 'sokcho',
+            '태백' : 'taebaek',
+            '강릉' : 'gangneung',
+            '원주' : 'wonju',
+            '춘천' : 'chuncheon',
+            '동해' : 'donghae',
+            '삼척' : 'samcheok',
         }
     }
     
     render() {
         return (
             <View style={styles.container}>
+                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.restaurants}
-                    keyExtractor={item => ''+item.CONTENT_ID}
+                    keyExtractor={item => ''+item.PHONE_NO}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
                             <View style={styles.list_item}>
                                 <Image
-                                    key={item.SUBJECT}
                                     style={styles.avatar}
                                     source={{uri : item.img_link}}
                                 />
                                 <View style={styles.title_container}>
-                                    <Text style={styles.title_text}> {item.SUBJECT} </Text>
-                                    <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
-                                    <Text style={styles.sub_title_text}> {item.SMGW_SUBJECT_S} </Text>
+                                    <Text style={styles.title_text}> {item.GR_NM} </Text>
+                                    <Text style={styles.sub_title_text}> {item.ROAD_ADDRESS} </Text>
+                                    <Text style={styles.sub_title_text}> {item.MAIN_MENU} </Text>
                                 </View>
 
                             </View>
@@ -54,8 +73,23 @@ export default class Restaurant extends React.Component {
         );
     }
 
+    get_distance(lat1,lng1,lat2,lng2) {
+        function deg2rad(deg) {
+            return deg * (Math.PI/180)
+        }
+    
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lng2-lng1);
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        return d;
+    }
+
     componentWillMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-restaurant-korean_food-kr/1/2";
+        let city = this.city_kor_to_eng[this.prop.total.SMGW_AREA_S.substring(0,2)]
+        let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/gwcgcom-model_restaurant-${city}/1/1000`;
         fetch(`${myApiUrl}`, {
             method: 'GET',
         }).then(response =>{
@@ -63,28 +97,35 @@ export default class Restaurant extends React.Component {
             let row = obj[Object.keys(obj)[0]].row;
 
             row.map(dict => {
-                let search_name = encodeURIComponent(dict.SUBJECT);
-                let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-                fetch(`${myApiUrl}`, {  
-                method : 'GET',
-                headers : {
-                    'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-                    'X-Naver-Client-Secret' : "aUDG50tsmD",
-                },        
-                }).then(response =>{
-                    let search_result = JSON.parse(response._bodyInit);
-                    if(search_result.items.length>0){
-                        dict['img_link'] = search_result.items[0].link
-                    }
-                    else{
-                        dict['img_link'] = 'http://placehold.it/140x100'
-                    }
-                    
-                    var restaurants = this.state.restaurants.slice()
-                    restaurants.push(dict)
-                    this.setState({ restaurants: restaurants })
-                })
+                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
+                if(dist<10.0){
+                    let search_name = encodeURIComponent(dict.GR_NM);
+                    let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
+                    fetch(`${myApiUrl}`, {  
+                    method : 'GET',
+                    headers : {
+                        'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
+                        'X-Naver-Client-Secret' : "aUDG50tsmD",
+                    },        
+                    }).then(response =>{
+                        let search_result = JSON.parse(response._bodyInit);
+                        if(search_result.items.length>0){
+                            dict['img_link'] = search_result.items[0].link
+                        }
+                        else{
+                            dict['img_link'] = 'http://placehold.it/140x100'
+                        }
+                        
+                        var restaurants = this.state.restaurants.slice()
+                        restaurants.push(dict)
+                        this.setState({ restaurants: restaurants })
+                    })
+                }
+                
             })
+            this.setState({
+                visible: !this.state.visible
+            });
         });
     }
 }

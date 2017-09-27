@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
 import content_styles from '../../assets/styles/content_style';
@@ -26,43 +25,32 @@ export default class RestaurantInfo extends React.Component {
     
     render() {
         return (
-            // <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
             <View style={styles.container}>
                 <ScrollView style={styles.scroll}>
                     <Card>
-                        <CardImage source={{uri: this.state.img_link}} title={this.prop.SUBJECT} />
-                        <CardTitle title= "소개" />
-                        <CardContent text={this.prop.CONTENT}/>
+                        <CardImage source={{uri: this.state.img_link}} title={this.prop.GR_NM} />
+                        <CardTitle title= "메인 메뉴" />
+                        <CardContent text={this.prop.MAIN_MENU}/>
                     </Card>
 
                     <Card>
                         <CardTitle title= "주소" />
-                        <CardContent text={this.prop.SMGW_ADDRESS_S}/>
+                        <CardContent text={this.prop.ROAD_ADDRESS}/>
                     </Card>
 
                     <Card>
                         <CardTitle title= "전화번호" />
-                        <CardContent text={this.prop.SMGW_CONTACT_S}/>
+                        <CardContent text={this.prop.PHONE_NO}/>
                     </Card>
 
                     <Card>
-                        <CardTitle title= "이용시간" />
-                        <CardContent text={this.prop.SMGW_TIME_S}/>
-                    </Card>
-
-                    <Card>
-                        <CardTitle title= "휴무일" />
-                        <CardContent text={this.prop.SMGW_HOLIDAY_S}/>
+                        <CardTitle title= "운영 시간" />
+                        <CardContent text={this.prop.MANAGE_TM}/>
                     </Card>
 
                     <Card>
                         <CardTitle title= "주차시설" />
-                        <CardContent text={`${this.prop.SMGW_PARKING_S} / ${this.prop.SMGW_PARKINGFEE_S}`}/>
-                    </Card>
-
-                    <Card>
-                        <CardTitle title= "주변명소" />
-                        <CardContent text={this.prop.SMGW_ATTRACTION_S}/>
+                        <CardContent text={`${this.prop.PARKING_YN	}`}/>
                     </Card>
 
                 </ScrollView>
