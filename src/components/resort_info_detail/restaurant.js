@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, List, StyleSheet, Image } from 'react-native';
+import { Text, View, FlatList, List, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
@@ -33,19 +33,21 @@ export default class Restaurant extends React.Component {
                     data={this.state.restaurants}
                     keyExtractor={item => ''+item.CONTENT_ID}
                     renderItem={({item}) => (
-                        <View style={styles.list_item}>
-                            <Image
-                                key={item.SUBJECT}
-                                style={styles.avatar}
-                                source={{uri : item.img_link}}
-                            />
-                            <View style={styles.title_container}>
-                                <Text style={styles.title_text}> {item.SUBJECT} </Text>
-                                <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
-                                <Text style={styles.sub_title_text}> {item.SMGW_SUBJECT_S} </Text>
-                            </View>
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('Settings')} } >
+                            <View style={styles.list_item}>
+                                <Image
+                                    key={item.SUBJECT}
+                                    style={styles.avatar}
+                                    source={{uri : item.img_link}}
+                                />
+                                <View style={styles.title_container}>
+                                    <Text style={styles.title_text}> {item.SUBJECT} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_SUBJECT_S} </Text>
+                                </View>
 
-                        </View>
+                            </View>
+                        </TouchableOpacity>
                     )}
                 />
             </View>
