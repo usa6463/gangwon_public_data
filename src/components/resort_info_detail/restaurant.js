@@ -37,7 +37,7 @@ export default class Restaurant extends React.Component {
                             <Image
                                 key={item.SUBJECT}
                                 style={styles.avatar}
-                                source={require(this.kor_to_eng[item.SMGW_SUBJECT_S])}
+                                source={{uri : item.img_link}}
                             />
                             <View style={styles.title_container}>
                                 <Text> {item.SUBJECT} </Text>
@@ -53,7 +53,7 @@ export default class Restaurant extends React.Component {
     }
 
     componentWillMount(){
-        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-restaurant-korean_food-kr/1/2";
+        let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-restaurant-korean_food-kr/1/200";
         fetch(`${myApiUrl}`, {
             method: 'GET',
         }).then(response =>{
@@ -61,9 +61,27 @@ export default class Restaurant extends React.Component {
             let row = obj[Object.keys(obj)[0]].row;
 
             row.map(dict => {
-                var restaurants = this.state.restaurants.slice()
-                restaurants.push(dict)
-                this.setState({ restaurants: restaurants })
+                let search_name = encodeURIComponent(dict.SUBJECT);
+                let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
+                fetch(`${myApiUrl}`, {  
+                method : 'GET',
+                headers : {
+                    'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
+                    'X-Naver-Client-Secret' : "aUDG50tsmD",
+                },        
+                }).then(response =>{
+                    let search_result = JSON.parse(response._bodyInit);
+                    if(search_result.items.length>0){
+                        dict['img_link'] = search_result.items[0].link
+                    }
+                    else{
+                        dict['img_link'] = 'http://placehold.it/140x100'
+                    }
+                    
+                    var restaurants = this.state.restaurants.slice()
+                    restaurants.push(dict)
+                    this.setState({ restaurants: restaurants })
+                })
             })
         });
     }
