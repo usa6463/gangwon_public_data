@@ -71,7 +71,6 @@ export default class Sight extends React.Component {
                                     <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
                                     <Text style={styles.sub_title_text}> {item.SMGW_SUMMARY_S} </Text>
                                 </View>
-
                             </View>
                         </TouchableOpacity>
                     )}
