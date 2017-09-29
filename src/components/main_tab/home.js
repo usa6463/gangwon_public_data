@@ -7,7 +7,7 @@ import navi_styles from '../../assets/styles/navi_style'
 export default class Recommand extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: 'GWPD',
+            headerTitle: 'Gangwon Ski Mania',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -23,7 +23,7 @@ export default class Recommand extends React.Component {
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
-                        source={require('../../assets/images/home_logo.png')}
+                        source={require('../../assets/images/gogle.png')}
                     />
                     <Text style={styles.title}> gangwon ski resort guide app </Text>
                 </View>
