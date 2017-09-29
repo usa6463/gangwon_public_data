@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, Dimensions, } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps';
 import MapCallout from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -29,8 +29,11 @@ export default class ResortDetail extends React.Component {
                 latitudeDelta: 2.0,
                 longitudeDelta: 2.0,
             },
+
+            modalVisible : false,
         };
 
+        this.setModalVisible = this.setModalVisible.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
 
         this.slope = [
@@ -56,6 +59,10 @@ export default class ResortDetail extends React.Component {
             require('../../assets/images/fee/o2.png'),
             require('../../assets/images/fee/orc.png'),
         ]
+    }
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
     }
 
     onRegionChange(region) {
@@ -101,38 +108,41 @@ export default class ResortDetail extends React.Component {
                         </ScrollView>
                     </Card>
 
-                    <Card>
-                        <Text style={styles.card_text}>지도</Text>
-                        <View style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        >       
-                            <MapView
-                                style={styles.map}
-                                region={this.state.region}
-                                onRegionChange={this.onRegionChange}
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {this.setModalVisible(!this.state.modalVisible)}}
+                    >     
+                        <MapView
+                            style={styles.map}
+                            region={this.state.region}
+                            onRegionChange={this.onRegionChange}
+                        >
+                            <MapView.Marker 
+                                key = {this.prop.CONTENT_ID}
+                                coordinate={{
+                                    latitude: this.prop.LAT,
+                                    longitude: this.prop.LNG,
+                                }}
                             >
-                                <MapView.Marker 
-                                    key = {this.prop.CONTENT_ID}
-                                    coordinate={{
-                                        latitude: this.prop.LAT,
-                                        longitude: this.prop.LNG,
-                                    }}
-                                >
-                                    <MapView.Callout>
-                                        <View style={styles.callout_container}>
-                                            <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
-                                            <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
-                                        </View>
-                                    </MapView.Callout>
+                                <MapView.Callout>
+                                    <View style={styles.callout_container}>
+                                        <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
+                                        <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
+                                    </View>
+                                </MapView.Callout>
 
-                                </MapView.Marker>  
+                            </MapView.Marker>  
+                        </MapView>
+                    </Modal>
 
-                            </MapView>
-                        </View>
-                    </Card>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => {this.setModalVisible(true)}}>
+                            <Text style={styles.buttonText}>지도 보기</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </ScrollView>
             </View>
             
@@ -191,10 +201,8 @@ const styles = StyleSheet.create({
         color: 'rgba(0 ,0 ,0 , 0.87)'
     },
     map: {
-        width: width-60,
+        width: width,
         height: height,
-        marginLeft: 30,
-        marginRight: 30,
     },
     callout_container: {
         flex: 1,
@@ -213,5 +221,19 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         color: '#888',
         textAlign: 'center'
-    }
+    },
+    buttonContainer: {
+        flex: 1,
+        marginTop:10,
+    },
+    button: {
+        backgroundColor: '#FFF',
+        paddingVertical: 15,
+    },
+    buttonText: {
+        color: 'black',
+        fontWeight: '700',
+        textAlign: 'center',
+        fontSize: 18
+    },
 })
