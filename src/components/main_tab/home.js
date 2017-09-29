@@ -10,14 +10,6 @@ export default class Recommand extends React.Component {
             headerTitle: 'GWPD',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
-            headerRight: (
-                <TouchableOpacity onPress={() => {navigation.navigate('Settings')} } >
-                    <Image
-                        style={navi_styles.settingIcon}
-                        source={require('../../assets/images/set.png')}
-                    />
-                </TouchableOpacity>
-            )
         }
     }
 
@@ -33,7 +25,7 @@ export default class Recommand extends React.Component {
                         style={styles.logo}
                         source={require('../../assets/images/home_logo.png')}
                     />
-                    <Text style={styles.title}> gangwon ski resort guide app made by PKNU CE </Text>
+                    <Text style={styles.title}> gangwon ski resort guide app </Text>
                 </View>
                 
                 <View style={styles.buttonContainer}>
