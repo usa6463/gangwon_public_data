@@ -19,8 +19,25 @@ export default class RestaurantInfo extends React.Component {
         this.prop = this.props.navigation.state.params
         this.state = {
             visible : true,
-            img_link : this.prop.img_link,
+            img_link : 'http://placehold.it/140x100',
         };
+    }
+
+    componentWillMount(){
+        let search_name = encodeURIComponent(this.prop.GR_NM);
+        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
+        fetch(`${myApiUrl}`, {  
+        method : 'GET',
+        headers : {
+            'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
+            'X-Naver-Client-Secret' : "aUDG50tsmD",
+        },        
+        }).then(response =>{
+            let search_result = JSON.parse(response._bodyInit);
+            if(search_result.items.length>0){
+                this.setState({ img_link: search_result.items[0].link })
+            }
+        })
     }
     
     render() {

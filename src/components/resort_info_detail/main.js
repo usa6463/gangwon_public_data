@@ -14,7 +14,7 @@ export default TabNavi = TabNavigator(
         관광지: { screen: Sight },
     },
     {   
-        lazy: false,
+        lazy: true,
         swipeEnabled: false,
         tabBarPosition: 'top',
         tabBarOptions: {

@@ -36,7 +36,7 @@ export default class Stay extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                
+                <Spinner visible={this.state.visible_stay} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.stays}
                     keyExtractor={item => ''+item.LAT}
@@ -87,34 +87,17 @@ export default class Stay extends React.Component {
                 row.map(dict => {
                     dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                     if(dist<10.0){
-                        let search_name = encodeURIComponent(dict.SUBJECT);
-                        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-                        fetch(`${myApiUrl}`, {  
-                        method : 'GET',
-                        headers : {
-                            'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-                            'X-Naver-Client-Secret' : "aUDG50tsmD",
-                        },        
-                        }).then(response =>{
-                            let search_result = JSON.parse(response._bodyInit);
-                            if(search_result.items.length>0){
-                                dict['img_link'] = search_result.items[0].link
-                            }
-                            else{
-                                dict['img_link'] = 'http://placehold.it/140x100'
-                            }
-                            
                             var stays = this.state.stays.slice()
                             stays.push(dict)
                             this.setState({ stays: stays })
-                        })
                     }
                 })
+                this.setState({
+                    visible_stay: false
+                });
             });
         })
-        this.setState({
-            visible_stay: !this.state.visible_stay
-        });
+        
     }
 }
 

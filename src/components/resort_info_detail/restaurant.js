@@ -48,23 +48,18 @@ export default class Restaurant extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                
+                <Spinner visible={this.state.visible_restaurant} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.restaurants}
                     keyExtractor={item => ''+item.LAT}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
                             <View style={styles.list_item}>
-                                <Image
-                                    style={styles.avatar}
-                                    source={{uri : item.img_link}}
-                                />
                                 <View style={styles.title_container}>
                                     <Text style={styles.title_text}> {item.GR_NM} </Text>
                                     <Text style={styles.sub_title_text}> {item.ROAD_ADDRESS} </Text>
                                     <Text style={styles.sub_title_text}> {item.MAIN_MENU} </Text>
                                 </View>
-
                             </View>
                         </TouchableOpacity>
                     )}
@@ -99,33 +94,15 @@ export default class Restaurant extends React.Component {
             row.map(dict => {
                 dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                 if(dist<10.0){
-                    let search_name = encodeURIComponent(dict.GR_NM);
-                    let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-                    fetch(`${myApiUrl}`, {  
-                    method : 'GET',
-                    headers : {
-                        'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-                        'X-Naver-Client-Secret' : "aUDG50tsmD",
-                    },        
-                    }).then(response =>{
-                        let search_result = JSON.parse(response._bodyInit);
-                        if(search_result.items.length>0){
-                            dict['img_link'] = search_result.items[0].link
-                        }
-                        else{
-                            dict['img_link'] = 'http://placehold.it/140x100'
-                        }
-                        
-                        var restaurants = this.state.restaurants.slice()
-                        restaurants.push(dict)
-                        this.setState({ restaurants: restaurants })
-                    })
+                    var restaurants = this.state.restaurants.slice()
+                    restaurants.push(dict)
+                    this.setState({ restaurants: restaurants })
                 }
-                
             })
             this.setState({
-                visible_restaurant: !this.state.visible_restaurant
+                visible_restaurant: false
             });
+            
         });
     }
 }
