@@ -23,7 +23,6 @@ export default class Recommand extends React.Component {
             ],
             visible : true,
         };
-        
     }
 
     render() {
@@ -89,9 +88,6 @@ var { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
         flex:1,
     },
     list_item: {

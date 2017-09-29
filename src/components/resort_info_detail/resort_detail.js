@@ -103,28 +103,35 @@ export default class ResortDetail extends React.Component {
 
                     <Card>
                         <Text style={styles.card_text}>지도</Text>
-                        <MapView
-                            style={styles.map}
-                            region={this.state.region}
-                            onRegionChange={this.onRegionChange}
-                        >
-                            <MapView.Marker 
-                                key = {this.prop.CONTENT_ID}
-                                coordinate={{
-                                    latitude: this.prop.LAT,
-                                    longitude: this.prop.LNG,
-                                }}
+                        <View style={{
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        >       
+                            <MapView
+                                style={styles.map}
+                                region={this.state.region}
+                                onRegionChange={this.onRegionChange}
                             >
-                                <MapView.Callout>
-                                    <View style={styles.callout_container}>
-                                        <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
-                                        <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
-                                    </View>
-                                </MapView.Callout>
+                                <MapView.Marker 
+                                    key = {this.prop.CONTENT_ID}
+                                    coordinate={{
+                                        latitude: this.prop.LAT,
+                                        longitude: this.prop.LNG,
+                                    }}
+                                >
+                                    <MapView.Callout>
+                                        <View style={styles.callout_container}>
+                                            <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
+                                            <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
+                                        </View>
+                                    </MapView.Callout>
 
-                            </MapView.Marker>  
+                                </MapView.Marker>  
 
-                        </MapView>
+                            </MapView>
+                        </View>
                     </Card>
                 </ScrollView>
             </View>
@@ -184,8 +191,10 @@ const styles = StyleSheet.create({
         color: 'rgba(0 ,0 ,0 , 0.87)'
     },
     map: {
-        width: width,
-        height: height
+        width: width-60,
+        height: height,
+        marginLeft: 30,
+        marginRight: 30,
     },
     callout_container: {
         flex: 1,
