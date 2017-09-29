@@ -20,7 +20,7 @@ export default class Sight extends React.Component {
         this.state = {
             sights : [
             ],
-            visible : true,
+            visible_sight : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.kind = [
@@ -55,7 +55,7 @@ export default class Sight extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                <Spinner visible={this.state.visible_sight} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.sights}
                     keyExtractor={item => ''+item.LAT}
@@ -93,7 +93,7 @@ export default class Sight extends React.Component {
         return d;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.kind.map(stay_kind => {
             let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-${stay_kind}-kr/1/1000/`;
             fetch(`${myApiUrl}`, {
@@ -127,13 +127,13 @@ export default class Sight extends React.Component {
                             this.setState({ sights: sights })
                         })
                     }
+                    this.setState({
+                        visible_sight: !this.state.visible_sight
+                    });
                     
                 })
             });
         })
-        this.setState({
-            visible: !this.state.visible
-        });
     }
 }
 

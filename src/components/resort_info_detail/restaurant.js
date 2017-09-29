@@ -20,7 +20,7 @@ export default class Restaurant extends React.Component {
         this.state = {
             restaurants : [
             ],
-            visible : true,
+            visible_restaurant : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.city_kor_to_eng = {
@@ -48,7 +48,7 @@ export default class Restaurant extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                
                 <FlatList
                     data={this.state.restaurants}
                     keyExtractor={item => ''+item.LAT}
@@ -87,7 +87,7 @@ export default class Restaurant extends React.Component {
         return d;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         let city = this.city_kor_to_eng[this.prop.SMGW_AREA_S.substring(0,2)]
         let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/gwcgcom-model_restaurant-${city}/1/1000`;
         fetch(`${myApiUrl}`, {
@@ -124,7 +124,7 @@ export default class Restaurant extends React.Component {
                 
             })
             this.setState({
-                visible: !this.state.visible
+                visible_restaurant: !this.state.visible_restaurant
             });
         });
     }

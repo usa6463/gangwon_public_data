@@ -14,9 +14,9 @@ export default TabNavi = TabNavigator(
         관광지: { screen: Sight },
     },
     {   
-        lazy: true,
+        lazy: false,
         swipeEnabled: false,
-        tabBarPosition: 'bottom',
+        tabBarPosition: 'top',
         tabBarOptions: {
             activeTintColor: '#3498db',
             inactiveTintColor: 'black',

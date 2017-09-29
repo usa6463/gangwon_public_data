@@ -20,7 +20,7 @@ export default class Stay extends React.Component {
         this.state = {
             stays : [
             ],
-            visible : true,
+            visible_stay : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.kind = [
@@ -36,7 +36,7 @@ export default class Stay extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                
                 <FlatList
                     data={this.state.stays}
                     keyExtractor={item => ''+item.LAT}
@@ -75,7 +75,7 @@ export default class Stay extends React.Component {
         return d;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.kind.map(stay_kind => {
             let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-accommodation-${stay_kind}-kr/1/1000/`;
             fetch(`${myApiUrl}`, {
@@ -109,12 +109,11 @@ export default class Stay extends React.Component {
                             this.setState({ stays: stays })
                         })
                     }
-                    
                 })
             });
         })
         this.setState({
-            visible: !this.state.visible
+            visible_stay: !this.state.visible_stay
         });
     }
 }
