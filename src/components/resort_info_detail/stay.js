@@ -85,7 +85,7 @@ export default class Stay extends React.Component {
                 let row = obj[Object.keys(obj)[0]].row;
     
                 row.map(dict => {
-                    dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
+                    dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                     if(dist<10.0){
                         let search_name = encodeURIComponent(dict.SUBJECT);
                         let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";

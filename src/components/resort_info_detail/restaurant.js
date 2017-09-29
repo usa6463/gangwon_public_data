@@ -88,7 +88,7 @@ export default class Restaurant extends React.Component {
     }
 
     componentWillMount(){
-        let city = this.city_kor_to_eng[this.prop.total.SMGW_AREA_S.substring(0,2)]
+        let city = this.city_kor_to_eng[this.prop.SMGW_AREA_S.substring(0,2)]
         let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/gwcgcom-model_restaurant-${city}/1/1000`;
         fetch(`${myApiUrl}`, {
             method: 'GET',
@@ -97,7 +97,7 @@ export default class Restaurant extends React.Component {
             let row = obj[Object.keys(obj)[0]].row;
 
             row.map(dict => {
-                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
+                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                 if(dist<10.0){
                     let search_name = encodeURIComponent(dict.GR_NM);
                     let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";

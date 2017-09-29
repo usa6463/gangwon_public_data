@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions, } from 'react-native';
+import MapView from 'react-native-maps';
+import MapCallout from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
@@ -66,15 +68,15 @@ export default class ResortDetail extends React.Component {
                 <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <ScrollView style={styles.scroll}>
                     <Card>
-                        <CardImage source={{uri: this.prop.total.img_link}} />
+                        <CardImage source={{uri: this.prop.img_link}} />
                         <CardTitle title= "소개" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <CardContent text={this.prop.CONTENT}/>
                     </Card>
 
                     <Card>
                         
                         <CardTitle title= "날씨" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <CardContent text={this.prop.CONTENT}/>
                     </Card>
 
                     <Card>
@@ -83,7 +85,7 @@ export default class ResortDetail extends React.Component {
                             <Image
                                 resizeMode="contain"
                                 style={styles.card_image}
-                                source={this.fee[this.prop.total.CONTENT_ID]}
+                                source={this.fee[this.prop.CONTENT_ID]}
                             />
                         </ScrollView>
                     </Card>
@@ -94,28 +96,29 @@ export default class ResortDetail extends React.Component {
                             <Image
                                 resizeMode="contain"
                                 style={styles.card_image}
-                                source={this.slope[this.prop.total.CONTENT_ID]}
+                                source={this.slope[this.prop.CONTENT_ID]}
                             />
                         </ScrollView>
                     </Card>
 
                     <Card>
+                        <Text style={styles.card_text}>지도</Text>
                         <MapView
                             style={styles.map}
                             region={this.state.region}
                             onRegionChange={this.onRegionChange}
                         >
                             <MapView.Marker 
-                                key = {this.prop.total.CONTENT_ID}
+                                key = {this.prop.CONTENT_ID}
                                 coordinate={{
-                                    latitude: this.prop.total.LAT,
-                                    longitude: this.prop.total.LNG,
+                                    latitude: this.prop.LAT,
+                                    longitude: this.prop.LNG,
                                 }}
                             >
                                 <MapView.Callout>
                                     <View style={styles.callout_container}>
-                                        <Text style={styles.callout_title}>{this.prop.total.SUBJECT}</Text>
-                                        <Text Style={styles.callout_description}>{this.prop.total.SMGW_ADDRESS_S}</Text>
+                                        <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
+                                        <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
                                     </View>
                                 </MapView.Callout>
 
@@ -127,6 +130,12 @@ export default class ResortDetail extends React.Component {
             </View>
             
         );
+    }
+
+    componentDidMount(){
+        this.setState({
+            visible: !this.state.visible
+        });
     }
 }
 
