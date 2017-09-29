@@ -52,7 +52,6 @@ export default class Recommand extends React.Component {
                         <MapView.Marker 
                             onCalloutPress={() => this.props.navigation.navigate('ResortInfoDetail', marker)}
                             key = {marker.name}
-                            image={require('../../assets/images/ski_log_map.png')}
                             coordinate={marker.latlng}
                         >
                             <MapView.Callout>
