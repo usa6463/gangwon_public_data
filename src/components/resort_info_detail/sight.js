@@ -5,10 +5,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import content_styles from '../../assets/styles/content_style';
 import navi_styles from '../../assets/styles/navi_style'
 
-export default class Restaurant extends React.Component {
+export default class Sight extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: '주변 식당',
+            headerTitle: '주변 관광지',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -18,47 +18,48 @@ export default class Restaurant extends React.Component {
         super(props);
         this.prop = this.props.navigation.state.params
         this.state = {
-            restaurants : [
+            sights : [
             ],
-            visible_restaurant : true,
+            visible_sight : true,
         };
         this.get_distance = this.get_distance.bind(this);
-        this.city_kor_to_eng = {
-            '양양' : 'yangyang',
-            '고성' : 'goseong',
-            '인제' : 'inje',
-            '양구' : 'yanggu',
-            '화천' : 'hwacheon',
-            '철원' : 'cheorwon',
-            '정선' : 'jeongseon',
-            '평창' : 'pyeongchang',
-            '영월' : 'yeongwol',
-            '횡성' : 'hoengseong',
-            '홍천' : 'hongcheon',
-            '속초' : 'sokcho',
-            '태백' : 'taebaek',
-            '강릉' : 'gangneung',
-            '원주' : 'wonju',
-            '춘천' : 'chuncheon',
-            '동해' : 'donghae',
-            '삼척' : 'samcheok',
-        }
+        this.kind = [
+            'campground',
+            'astronomical_observatory',
+            'observatory',
+            'amusement_park',
+            'valley',
+            'etc',
+            'theme_park',
+            'experience_village',
+            'natural_recreation_forest',
+            'natural_ecology',
+            'museum',
+            'leisure_sports',
+            'flower_garden',
+            'park',
+            'culture',
+        ]
     }
     
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible_restaurant} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                <Spinner visible={this.state.visible_sight} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
-                    data={this.state.restaurants}
+                    data={this.state.sights}
                     keyExtractor={item => ''+item.LAT}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('SightInfo', item)} } >
                             <View style={styles.list_item}>
+                                <Image
+                                    style={styles.avatar}
+                                    source={{uri : item.img_link}}
+                                />
                                 <View style={styles.title_container}>
-                                    <Text style={styles.title_text}> {item.GR_NM} </Text>
-                                    <Text style={styles.sub_title_text}> {item.ROAD_ADDRESS} </Text>
-                                    <Text style={styles.sub_title_text}> {item.MAIN_MENU} </Text>
+                                    <Text style={styles.title_text}> {item.SUBJECT} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_SUMMARY_S} </Text>
                                 </View>
                             </View>
                         </TouchableOpacity>
@@ -83,28 +84,28 @@ export default class Restaurant extends React.Component {
     }
 
     componentDidMount(){
-        let city = this.city_kor_to_eng[this.prop.SMGW_AREA_S.substring(0,2)]
-        let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/gwcgcom-model_restaurant-${city}/1/1000`;
-        fetch(`${myApiUrl}`, {
-            method: 'GET',
-        }).then(response =>{
-            let obj = JSON.parse(response._bodyInit);
-            let row = obj[Object.keys(obj)[0]].row;
-
-            row.map(dict => {
-                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
-                if(dist<10.0){
-                    var restaurants = this.state.restaurants.slice()
-                    restaurants.push(dict)
-                    this.setState({ restaurants: restaurants })
-                    this.setState({
-                        visible_restaurant: false
-                    });
-                }
-            })
-            
-            
-        });
+        this.kind.map(stay_kind => {
+            let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-${stay_kind}-kr/1/1000/`;
+            fetch(`${myApiUrl}`, {
+                method: 'GET',
+            }).then(response =>{
+                let obj = JSON.parse(response._bodyInit);
+                let row = obj[Object.keys(obj)[0]].row;
+    
+                row.map(dict => {
+                    dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
+                    if(dist<10.0 && dist!=0){
+                            var sights = this.state.sights.slice()
+                            sights.push(dict)
+                            this.setState({ sights: sights })
+                            this.setState({
+                                visible_sight: false
+                            });
+                    }
+                })
+                
+            });
+        })
     }
 }
 

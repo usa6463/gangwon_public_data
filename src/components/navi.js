@@ -4,18 +4,19 @@ import { TabNavigator, StackNavigator } from "react-navigation";
 import Home from './main_tab/home';
 import ResortDashboard from './main_tab/resort_dashboard';
 import ResortInfo from './main_tab/resort_info';
-
-import SettingList from './settings/main';
 import ResortInfoDetail from './resort_info_detail/main';
 import RecommandMain from './recommand/main';
 import RecommandResult from './recommand/result';
+import RestaurantInfo from './resort_info_detail/restaurant_info';
+import StayInfo from './resort_info_detail/stay_info';
+import SightInfo from './resort_info_detail/sight_info';
 
 
 const TabNavi = TabNavigator(
     {
-        home: { screen: Home },
-        dashboard: { screen: ResortDashboard },
-        info: { screen: ResortInfo },
+        홈: { screen: Home },
+        추천: {screen: RecommandMain},
+        스키장정보: { screen: ResortInfo },
     },
     {   
         lazy: true,
@@ -36,8 +37,10 @@ const TabNavi = TabNavigator(
 
 export default StackNavi = StackNavigator({
     Home: { screen: TabNavi },
-    Settings: { screen: SettingList },
     Recommand: { screen: RecommandMain },
     ResortInfoDetail: { screen: ResortInfoDetail},
     RecommandResult: { screen: RecommandResult },
+    RestaurantInfo: { screen: RestaurantInfo },
+    StayInfo: { screen: StayInfo },
+    SightInfo: { screen: SightInfo },
 });

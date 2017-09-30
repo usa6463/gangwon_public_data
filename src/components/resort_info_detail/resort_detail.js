@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, Slider } from 'react-native';
+
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions, TouchableOpacity, Slider } from 'react-native';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
@@ -64,9 +66,9 @@ var slider_gradation2 = (next_hour) => {
 }
 
 export default class ResortDetail extends React.Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: 'ResortDetail',
+    static navigationOptions =  ({ navigation }) => {
+        return{
+            headerTitle: '스키장 정보',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -84,6 +86,41 @@ export default class ResortDetail extends React.Component {
             l_weather: long_weather,
             slider_value: 0
         };
+
+        this.setModalVisible = this.setModalVisible.bind(this);
+        this.onRegionChange = this.onRegionChange.bind(this);
+
+        this.slope = [
+            require('../../assets/images/slope/high_one.png'),
+            require('../../assets/images/slope/yongpyung.png'),
+            require('../../assets/images/slope/elisian.png'),
+            require('../../assets/images/slope/daemyung.png'),
+            require('../../assets/images/slope/phoenix.png'),
+            require('../../assets/images/slope/welihili.png'),
+            require('../../assets/images/slope/alpensia.png'),
+            require('../../assets/images/slope/o2.png'),
+            require('../../assets/images/slope/orc.png'),
+        ]
+
+        this.fee = [
+            require('../../assets/images/fee/high_one.png'),
+            require('../../assets/images/fee/yongpyung.png'),
+            require('../../assets/images/fee/elisian.png'),
+            require('../../assets/images/fee/daemyung.png'),
+            require('../../assets/images/fee/phoenix.png'),
+            require('../../assets/images/fee/welihili.png'),
+            require('../../assets/images/fee/alpensia.png'),
+            require('../../assets/images/fee/o2.png'),
+            require('../../assets/images/fee/orc.png'),
+        ]
+    }
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
+
+    onRegionChange(region) {
+        this.setState({ region });
     }
 
     render() {
@@ -91,13 +128,13 @@ export default class ResortDetail extends React.Component {
         let cur_date = Moment(this.state.cur_weather.minutely[0].timeObservation).format('YYYY-MM-DD');
 
         return (
-            // <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
             <View style={styles.container}>
+                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <ScrollView style={styles.scroll}>
                     <Card>
-                        <CardImage source={{ uri: this.state.img_link }} />
-                        <CardTitle title="소개" />
-                        <CardContent text={this.prop.total.CONTENT} />
+                        <CardImage source={{uri: this.prop.img_link}} />
+                        <CardTitle title= "소개" />
+                        <CardContent text={this.prop.CONTENT}/>
                     </Card>
                     <Card>
                         <CardTitle title="날씨" />
@@ -119,21 +156,31 @@ export default class ResortDetail extends React.Component {
                                 </Slider>
                                 {slider_gradation2(next_hour)}
                             </View>
-
                             {getLongWeatherView(this.state.l_weather, cur_date)}
                         </CardContent>
                     </Card>
                     <Card>
-                        <CardImage source={require('../../assets/images/pay.jpg')} />
-                        <CardTitle title="이용 요금" />
-                        <CardContent text={this.prop.total.CONTENT} />
+                        <Text style={styles.card_text}>이용 요금</Text>
+                        <ScrollView horizontal={true}>
+                            <Image
+                                resizeMode="contain"
+                                style={styles.card_image}
+                                source={this.fee[this.prop.CONTENT_ID]}
+                            />
+                        </ScrollView>
                     </Card>
 
                     <Card>
-                        <CardImage source={require('../../assets/images/slope.jpg')} />
-                        <CardTitle title="슬로프" />
-                        <CardContent text={this.prop.total.CONTENT} />
+                        <Text style={styles.card_text}>슬로프</Text>
+                        <ScrollView horizontal={true}>
+                            <Image
+                                resizeMode="contain"
+                                style={styles.card_image}
+                                source={this.slope[this.prop.CONTENT_ID]}
+                            />
+                        </ScrollView>
                     </Card>
+
                 </ScrollView>
             </View >
 
@@ -141,23 +188,8 @@ export default class ResortDetail extends React.Component {
     }
 
     componentDidMount() {
-        let search_name = encodeURIComponent(this.prop.total.SUBJECT);
-        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name + "&display=1&start=1&sort=sim&filter=all";
-        fetch(`${myApiUrl}`, {
-            method: 'GET',
-            headers: {
-                'X-Naver-Client-Id': "IDilnLYgUDEqs6N6cIiw",
-                'X-Naver-Client-Secret': "aUDG50tsmD",
-            },
-        }).then(response => {
-            let obj = JSON.parse(response._bodyInit);
-            this.setState({
-                img_link: obj.items[0].link
-            });
-        })
-
-        var latitude = this.prop.latlng.latitude;
-        var longitude = this.prop.latlng.longitude;
+        var latitude = this.prop.LAT;
+        var longitude = this.prop.LNG;
         let cur_weatherUrl = "http://apis.skplanetx.com/weather/current/minutely?lon=" +longitude+"&village=&county=&lat=" + latitude + "&city=&version=1&stnid=";
         fetch(`${cur_weatherUrl}`, {
             method: 'GET',
@@ -191,36 +223,13 @@ export default class ResortDetail extends React.Component {
             let obj = JSON.parse(response._bodyInit);
             this.setState({ l_weather: obj.weather });
         })
-
-
-        // let myApiUrl = "http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-leisure_sports-kr/1/200";
-        // fetch(`${myApiUrl}`, {  
-        // method: 'GET',
-        // }).then(response =>{
-        //     let obj = JSON.parse(response._bodyInit);
-        //     let row = obj[Object.keys(obj)[0]].row;
-        //     row.map(dict => {
-        //         this.state.resort_name.map(name => {
-        //             if(dict.SUBJECT.search(name) >= 0 ){
-        //                 temp = {
-        //                     name : dict.CONTENT_ID,
-        //                     latlng :{
-        //                         latitude: Number(dict.LAT),
-        //                         longitude: Number(dict.LNG)
-        //                     },
-        //                     title : dict.SUBJECT,
-        //                     description : dict.SMGW_ADDRESS_S,
-        //                 }
-        //                 this.state.markers.push(temp);
-        //             }
-        //         })
-        //     });
-        //     this.setState({
-        //         visible: !this.state.visible
-        //     });
-        // })
+        this.setState({
+            visible: !this.state.visible
+        });
     }
 }
+
+var { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -245,10 +254,59 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     scroll: {
-        flex: 0.6,
+        flex: 1,
     },
     card_image: {
-        color: 'rgba(52, 52, 52, 0.7)',
+        // width: width,
+        // height: height,
+        // resizeMode:'stretch'
+    },
+    card_scroll: {
+        flex:1,
+    },
+    card_text: {
+        alignItems: 'flex-start',
+        paddingRight: 16,
+        paddingLeft: 16,
+        paddingBottom: 16,
+        paddingTop: 16,
+        fontSize: 24,
+        color: 'rgba(0 ,0 ,0 , 0.87)'
+    },
+    map: {
+        width: width,
+        height: height,
+    },
+    callout_container: {
+        flex: 1,
+        backgroundColor: '#FFD8D8',
+        borderRadius: 20
+    },
 
+    callout_title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+       // marginBottom: 4
+    },
+    callout_description: {
+        fontSize: 12,
+        fontStyle: 'normal',
+        color: '#888',
+        textAlign: 'center'
+    },
+    buttonContainer: {
+        flex: 1,
+        marginTop:10,
+    },
+    button: {
+        backgroundColor: '#FFF',
+        paddingVertical: 15,
+    },
+    buttonText: {
+        color: 'black',
+        fontWeight: '700',
+        textAlign: 'center',
+        fontSize: 18
     },
 })

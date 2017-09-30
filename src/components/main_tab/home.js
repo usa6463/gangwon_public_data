@@ -7,17 +7,9 @@ import navi_styles from '../../assets/styles/navi_style'
 export default class Recommand extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: 'GWPD',
+            headerTitle: 'Gangwon Ski Mania',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
-            headerRight: (
-                <TouchableOpacity onPress={() => {navigation.navigate('Settings')} } >
-                    <Image
-                        style={navi_styles.settingIcon}
-                        source={require('../../assets/images/set.png')}
-                    />
-                </TouchableOpacity>
-            )
         }
     }
 
@@ -31,14 +23,15 @@ export default class Recommand extends React.Component {
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
-                        source={require('../../assets/images/home_logo.png')}
+                        source={require('../../assets/images/gogle.png')}
                     />
-                    <Text style={styles.title}> gangwon ski resort guide app made by PKNU CE </Text>
+                    <Text style={styles.title}> gangwon ski resort guide app </Text>
                 </View>
                 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('Recommand')} }>
-                        <Text style={styles.buttonText}> recommand course for you </Text>
+                        <Text style={styles.buttonText}> 오늘의 추천 스키장 </Text>
+                        {/* 여기에 오늘 날씨 고려해서 설질 가장 좋은 스키장 정보 뛰워줌. */}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -81,6 +74,5 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         fontSize: 18
-
     },
 })
