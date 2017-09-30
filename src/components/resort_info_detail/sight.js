@@ -98,11 +98,12 @@ export default class Sight extends React.Component {
                             var sights = this.state.sights.slice()
                             sights.push(dict)
                             this.setState({ sights: sights })
+                            this.setState({
+                                visible_sight: false
+                            });
                     }
                 })
-                this.setState({
-                    visible_sight: false
-                });
+                
             });
         })
     }

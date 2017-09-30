@@ -97,11 +97,12 @@ export default class Restaurant extends React.Component {
                     var restaurants = this.state.restaurants.slice()
                     restaurants.push(dict)
                     this.setState({ restaurants: restaurants })
+                    this.setState({
+                        visible_restaurant: false
+                    });
                 }
             })
-            this.setState({
-                visible_restaurant: false
-            });
+            
             
         });
     }

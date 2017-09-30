@@ -90,11 +90,12 @@ export default class Stay extends React.Component {
                             var stays = this.state.stays.slice()
                             stays.push(dict)
                             this.setState({ stays: stays })
+                            this.setState({
+                                visible_stay: false
+                            });
                     }
                 })
-                this.setState({
-                    visible_stay: false
-                });
+                
             });
         })
         

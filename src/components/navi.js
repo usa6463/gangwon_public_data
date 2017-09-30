@@ -15,7 +15,7 @@ import SightInfo from './resort_info_detail/sight_info';
 const TabNavi = TabNavigator(
     {
         홈: { screen: Home },
-        대시보드: { screen: ResortDashboard },
+        추천: {screen: RecommandMain},
         스키장정보: { screen: ResortInfo },
     },
     {   
