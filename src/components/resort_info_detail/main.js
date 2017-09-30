@@ -15,8 +15,8 @@ export default TabNavi = TabNavigator(
     },
     {   
         lazy: true,
-        swipeEnabled: false,
-        tabBarPosition: 'bottom',
+        swipeEnabled: true,
+        tabBarPosition: 'top',
         tabBarOptions: {
             activeTintColor: '#3498db',
             inactiveTintColor: 'black',

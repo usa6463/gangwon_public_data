@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, FlatList, TouchableOpacity, Image, List } from 'react-native';
 import MapView from 'react-native-maps';
 import MapCallout from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -10,7 +10,7 @@ export default class Recommand extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: 'Ski Map Information',
+            headerTitle: '스키장 정보',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }
@@ -19,51 +19,35 @@ export default class Recommand extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            resort_name : ['오크밸리 스키장', '오투', '알펜시아', '웰리힐리', '휘닉스', '대명', '엘리시안', '용평', '하이원'],
-            markers : [
+            resorts : [
             ],
-                
-            region: {
-                latitude: 37.474397,
-                longitude: 128.217005,
-                latitudeDelta: 2.0,
-                longitudeDelta: 2.0,
-            },
-
             visible : true,
         };
-        this.onRegionChange = this.onRegionChange.bind(this);
-    }
-
-    onRegionChange(region) {
-        this.setState({ region });
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
-                <MapView
-                    style={styles.map}
-                    region={this.state.region}
-                    onRegionChange={this.onRegionChange}
-                >
-                    {this.state.markers.map(marker => (
-                        <MapView.Marker 
-                            onCalloutPress={() => this.props.navigation.navigate('ResortInfoDetail', marker)}
-                            key = {marker.name}
-                            image={require('../../assets/images/ski_log_map.png')}
-                            coordinate={marker.latlng}
-                        >
-                            <MapView.Callout>
-                              <View style={styles.callout_container}>
-                                  <Text style={styles.callout_title}>{marker.title}</Text>
-                                  <Text Style={styles.callout_description}>{marker.address}</Text>
-                              </View>
-                          </MapView.Callout>
-                        </MapView.Marker>     
-                    ))}
-                </MapView>
+                <FlatList
+                    data={this.state.resorts}
+                    keyExtractor={item => ''+item.LAT}
+                    renderItem={({item}) => (
+                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('ResortInfoDetail', item)} } >
+                            <View style={styles.list_item}>
+                                <Image
+                                    style={styles.avatar}
+                                    source={{uri : item.img_link}}
+                                />
+                                <View style={styles.title_container}>
+                                    <Text style={styles.title_text}> {item.SUBJECT} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_ADDRESS_S} </Text>
+                                    <Text style={styles.sub_title_text}> {item.SMGW_SUMMARY_S} </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
             </View>
         );
     }
@@ -72,20 +56,26 @@ export default class Recommand extends React.Component {
         let row = require( "./ski_resort_info.json" )
         console.log(row)
         row.map(dict => {
-            this.state.resort_name.map(name => {
-                if(dict.SUBJECT.search(name) >= 0 ){
-                    temp = {
-                        name : dict.CONTENT_ID,
-                        latlng :{
-                            latitude: Number(dict.LAT),
-                            longitude: Number(dict.LNG)
-                        },
-                        title : dict.SUBJECT,
-                        address : dict.SMGW_ADDRESS_S,
-                        total : dict,
-                    }
-                    this.state.markers.push(temp);
+            let search_name = encodeURIComponent(dict.SUBJECT);
+            let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
+            fetch(`${myApiUrl}`, {  
+            method : 'GET',
+            headers : {
+                'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
+                'X-Naver-Client-Secret' : "aUDG50tsmD",
+            },        
+            }).then(response =>{
+                let search_result = JSON.parse(response._bodyInit);
+                if(search_result.items.length>0){
+                    dict['img_link'] = search_result.items[0].link
                 }
+                else{
+                    dict['img_link'] = 'http://placehold.it/140x100'
+                }
+                
+                var resorts = this.state.resorts.slice()
+                resorts.push(dict)
+                this.setState({ resorts: resorts })
             })
         });
         this.setState({
@@ -98,32 +88,32 @@ var { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        flex:1,
     },
-    map: {
-        width: width,
-        height: height
+    list_item: {
+        flex:1,
+        flexDirection: 'row',
+        backgroundColor: '#ecf0f1',
+        borderColor: 'black',
+        borderBottomWidth: 1,
     },
-
-    callout_container: {
-        flex: 1,
-        backgroundColor: '#FFD8D8',
-        borderRadius: 20
+    avatar: {
+        width: 70,
+        height: 70,
+        borderRadius: 50,
+        marginTop: 8,
+        marginBottom: 8,
+        marginRight: 8,
+        marginLeft: 8,
     },
-
-    callout_title: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        textAlign: 'center',
-       // marginBottom: 4
+    title_text: {
+        color: 'black',
+        fontWeight: '700',
+        fontSize: 18,
+        marginBottom: 4,
+        marginTop: 6,
     },
-    callout_description: {
-        fontSize: 12,
-        fontStyle: 'normal',
-        color: '#888',
-        textAlign: 'center'
+    sub_title_text: {
+        marginBottom: 2,
     }
-
 });

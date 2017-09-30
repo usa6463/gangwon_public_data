@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions, Modal, TouchableOpacity } from 'react-native';
+import MapView from 'react-native-maps';
+import MapCallout from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards' // https://www.npmjs.com/package/react-native-material-cards
 
@@ -20,8 +22,19 @@ export default class ResortDetail extends React.Component {
         this.prop = this.props.navigation.state.params
         this.state = {
             visible : true,
-            img_link : 'http://placehold.it/480x270',
+
+            region: {
+                latitude: 37.474397,
+                longitude: 128.217005,
+                latitudeDelta: 2.0,
+                longitudeDelta: 2.0,
+            },
+
+            modalVisible : false,
         };
+
+        this.setModalVisible = this.setModalVisible.bind(this);
+        this.onRegionChange = this.onRegionChange.bind(this);
 
         this.slope = [
             require('../../assets/images/slope/high_one.png'),
@@ -47,6 +60,14 @@ export default class ResortDetail extends React.Component {
             require('../../assets/images/fee/orc.png'),
         ]
     }
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
+
+    onRegionChange(region) {
+        this.setState({ region });
+    }
     
     render() {
         return (
@@ -54,15 +75,15 @@ export default class ResortDetail extends React.Component {
                 <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <ScrollView style={styles.scroll}>
                     <Card>
-                        <CardImage source={{uri: this.state.img_link}} />
+                        <CardImage source={{uri: this.prop.img_link}} />
                         <CardTitle title= "소개" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <CardContent text={this.prop.CONTENT}/>
                     </Card>
 
                     <Card>
                         
                         <CardTitle title= "날씨" />
-                        <CardContent text={this.prop.total.CONTENT}/>
+                        <CardContent text={this.prop.CONTENT}/>
                     </Card>
 
                     <Card>
@@ -71,7 +92,7 @@ export default class ResortDetail extends React.Component {
                             <Image
                                 resizeMode="contain"
                                 style={styles.card_image}
-                                source={this.fee[this.prop.total.CONTENT_ID]}
+                                source={this.fee[this.prop.CONTENT_ID]}
                             />
                         </ScrollView>
                     </Card>
@@ -82,10 +103,11 @@ export default class ResortDetail extends React.Component {
                             <Image
                                 resizeMode="contain"
                                 style={styles.card_image}
-                                source={this.slope[this.prop.total.CONTENT_ID]}
+                                source={this.slope[this.prop.CONTENT_ID]}
                             />
                         </ScrollView>
                     </Card>
+
                 </ScrollView>
             </View>
             
@@ -93,24 +115,9 @@ export default class ResortDetail extends React.Component {
     }
 
     componentDidMount(){
-        let search_name = encodeURIComponent(this.prop.total.SUBJECT);
-        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-        fetch(`${myApiUrl}`, {  
-        method : 'GET',
-        headers : {
-            'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-            'X-Naver-Client-Secret' : "aUDG50tsmD",
-        },        
-        }).then(response =>{
-            let obj = JSON.parse(response._bodyInit);
-            this.setState({
-                img_link: obj.items[0].link
-            });
-
-            this.setState({
-                visible: !this.state.visible
-            });
-        })
+        this.setState({
+            visible: !this.state.visible
+        });
     }
 }
 
@@ -157,5 +164,41 @@ const styles = StyleSheet.create({
         paddingTop: 16,
         fontSize: 24,
         color: 'rgba(0 ,0 ,0 , 0.87)'
-    }
+    },
+    map: {
+        width: width,
+        height: height,
+    },
+    callout_container: {
+        flex: 1,
+        backgroundColor: '#FFD8D8',
+        borderRadius: 20
+    },
+
+    callout_title: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+       // marginBottom: 4
+    },
+    callout_description: {
+        fontSize: 12,
+        fontStyle: 'normal',
+        color: '#888',
+        textAlign: 'center'
+    },
+    buttonContainer: {
+        flex: 1,
+        marginTop:10,
+    },
+    button: {
+        backgroundColor: '#FFF',
+        paddingVertical: 15,
+    },
+    buttonText: {
+        color: 'black',
+        fontWeight: '700',
+        textAlign: 'center',
+        fontSize: 18
+    },
 })

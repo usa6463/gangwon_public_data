@@ -20,7 +20,7 @@ export default class Restaurant extends React.Component {
         this.state = {
             restaurants : [
             ],
-            visible : true,
+            visible_restaurant : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.city_kor_to_eng = {
@@ -48,23 +48,18 @@ export default class Restaurant extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                <Spinner visible={this.state.visible_restaurant} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.restaurants}
                     keyExtractor={item => ''+item.LAT}
                     renderItem={({item}) => (
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('RestaurantInfo', item)} } >
                             <View style={styles.list_item}>
-                                <Image
-                                    style={styles.avatar}
-                                    source={{uri : item.img_link}}
-                                />
                                 <View style={styles.title_container}>
                                     <Text style={styles.title_text}> {item.GR_NM} </Text>
                                     <Text style={styles.sub_title_text}> {item.ROAD_ADDRESS} </Text>
                                     <Text style={styles.sub_title_text}> {item.MAIN_MENU} </Text>
                                 </View>
-
                             </View>
                         </TouchableOpacity>
                     )}
@@ -87,8 +82,8 @@ export default class Restaurant extends React.Component {
         return d;
     }
 
-    componentWillMount(){
-        let city = this.city_kor_to_eng[this.prop.total.SMGW_AREA_S.substring(0,2)]
+    componentDidMount(){
+        let city = this.city_kor_to_eng[this.prop.SMGW_AREA_S.substring(0,2)]
         let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/gwcgcom-model_restaurant-${city}/1/1000`;
         fetch(`${myApiUrl}`, {
             method: 'GET',
@@ -97,35 +92,18 @@ export default class Restaurant extends React.Component {
             let row = obj[Object.keys(obj)[0]].row;
 
             row.map(dict => {
-                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
+                dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                 if(dist<10.0){
-                    let search_name = encodeURIComponent(dict.GR_NM);
-                    let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-                    fetch(`${myApiUrl}`, {  
-                    method : 'GET',
-                    headers : {
-                        'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-                        'X-Naver-Client-Secret' : "aUDG50tsmD",
-                    },        
-                    }).then(response =>{
-                        let search_result = JSON.parse(response._bodyInit);
-                        if(search_result.items.length>0){
-                            dict['img_link'] = search_result.items[0].link
-                        }
-                        else{
-                            dict['img_link'] = 'http://placehold.it/140x100'
-                        }
-                        
-                        var restaurants = this.state.restaurants.slice()
-                        restaurants.push(dict)
-                        this.setState({ restaurants: restaurants })
-                    })
+                    var restaurants = this.state.restaurants.slice()
+                    restaurants.push(dict)
+                    this.setState({ restaurants: restaurants })
+                    this.setState({
+                        visible_restaurant: false
+                    });
                 }
-                
             })
-            this.setState({
-                visible: !this.state.visible
-            });
+            
+            
         });
     }
 }

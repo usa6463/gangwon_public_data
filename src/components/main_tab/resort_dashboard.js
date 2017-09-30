@@ -7,7 +7,7 @@ import navi_styles from '../../assets/styles/navi_style'
 export default class Recommand extends React.Component {
     static navigationOptions =  ({ navigation }) => {
         return{
-            headerTitle: 'DashBoard',
+            headerTitle: '대시보드',
             headerStyle: navi_styles.headerStyle,
             headerTitleStyle: navi_styles.headerTitleStyle,
         }

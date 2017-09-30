@@ -20,42 +20,32 @@ export default class Sight extends React.Component {
         this.state = {
             sights : [
             ],
-            visible : true,
+            visible_sight : true,
         };
         this.get_distance = this.get_distance.bind(this);
         this.kind = [
-            'port',
             'campground',
             'astronomical_observatory',
             'observatory',
             'amusement_park',
-            'island',
             'valley',
             'etc',
-            'waterfall',
             'theme_park',
             'experience_village',
             'natural_recreation_forest',
             'natural_ecology',
-            'ruins',
-            'cruise',
-            'mountain',
             'museum',
             'leisure_sports',
-            'road',
             'flower_garden',
-            'lake',
-            'beach',
             'park',
             'culture',
-            'river',
         ]
     }
     
     render() {
         return (
             <View style={styles.container}>
-                <Spinner visible={this.state.visible} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
+                <Spinner visible={this.state.visible_sight} textContent={"Loading"} textStyle={{color: '#FFF'}} cancelable={true} animation={'fade'}/>
                 <FlatList
                     data={this.state.sights}
                     keyExtractor={item => ''+item.LAT}
@@ -93,7 +83,7 @@ export default class Sight extends React.Component {
         return d;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.kind.map(stay_kind => {
             let myApiUrl = `http://data.gwd.go.kr/apiservice/734a677953757361387467517772/json/tourdb-tourist_attraction-${stay_kind}-kr/1/1000/`;
             fetch(`${myApiUrl}`, {
@@ -103,37 +93,19 @@ export default class Sight extends React.Component {
                 let row = obj[Object.keys(obj)[0]].row;
     
                 row.map(dict => {
-                    dist = this.get_distance(dict.LAT, dict.LNG, this.prop.total.LAT, this.prop.total.LNG);
+                    dist = this.get_distance(dict.LAT, dict.LNG, this.prop.LAT, this.prop.LNG);
                     if(dist<10.0 && dist!=0){
-                        let search_name = encodeURIComponent(dict.SUBJECT);
-                        let myApiUrl = "https://openapi.naver.com/v1/search/image.json?query=" + search_name +"&display=1&start=1&sort=sim&filter=all";
-                        fetch(`${myApiUrl}`, {  
-                        method : 'GET',
-                        headers : {
-                            'X-Naver-Client-Id' : "IDilnLYgUDEqs6N6cIiw",
-                            'X-Naver-Client-Secret' : "aUDG50tsmD",
-                        },        
-                        }).then(response =>{
-                            let search_result = JSON.parse(response._bodyInit);
-                            if(search_result.items.length>0){
-                                dict['img_link'] = search_result.items[0].link
-                            }
-                            else{
-                                dict['img_link'] = 'http://placehold.it/140x100'
-                            }
-                            
                             var sights = this.state.sights.slice()
                             sights.push(dict)
                             this.setState({ sights: sights })
-                        })
+                            this.setState({
+                                visible_sight: false
+                            });
                     }
-                    
                 })
+                
             });
         })
-        this.setState({
-            visible: !this.state.visible
-        });
     }
 }
 
