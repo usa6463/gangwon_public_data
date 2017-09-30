@@ -27,13 +27,6 @@ export default class Recommand extends React.Component {
                     />
                     <Text style={styles.title}> gangwon ski resort guide app </Text>
                 </View>
-                
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.navigate('Recommand')} }>
-                        <Text style={styles.buttonText}> 오늘의 추천 스키장 </Text>
-                        {/* 여기에 오늘 날씨 고려해서 설질 가장 좋은 스키장 정보 뛰워줌. */}
-                    </TouchableOpacity>
-                </View>
             </View>
         );
     }
