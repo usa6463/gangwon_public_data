@@ -108,41 +108,6 @@ export default class ResortDetail extends React.Component {
                         </ScrollView>
                     </Card>
 
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {this.setModalVisible(!this.state.modalVisible)}}
-                    >     
-                        <MapView
-                            style={styles.map}
-                            region={this.state.region}
-                            onRegionChange={this.onRegionChange}
-                        >
-                            <MapView.Marker 
-                                key = {this.prop.CONTENT_ID}
-                                coordinate={{
-                                    latitude: this.prop.LAT,
-                                    longitude: this.prop.LNG,
-                                }}
-                            >
-                                <MapView.Callout>
-                                    <View style={styles.callout_container}>
-                                        <Text style={styles.callout_title}>{this.prop.SUBJECT}</Text>
-                                        <Text Style={styles.callout_description}>{this.prop.SMGW_ADDRESS_S}</Text>
-                                    </View>
-                                </MapView.Callout>
-
-                            </MapView.Marker>  
-                        </MapView>
-                    </Modal>
-
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={() => {this.setModalVisible(true)}}>
-                            <Text style={styles.buttonText}>지도 보기</Text>
-                        </TouchableOpacity>
-                    </View>
-
                 </ScrollView>
             </View>
             
