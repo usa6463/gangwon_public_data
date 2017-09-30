@@ -8,14 +8,17 @@
 	},
 	"dependencies": {
 		"encoding": "*",
+		"moment": "^2.18.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.2",
 		"react-native-loading-spinner-overlay": "^0.5.2",
 		"react-native-maps": "^0.16.4",
 		"react-native-material-cards": "^1.0.6",
 		"react-native-settings-list": "^1.7.1",
+		"react-native-slider": "^0.11.0",
 		"react-native-smart-splash-screen": "^2.3.5",
 		"react-navigation": "^1.0.0-beta.11",
+		"react-rangeslider": "^2.2.0",
 		"rn-viewpager": "^1.2.4"
 	},
 	"devDependencies": {
